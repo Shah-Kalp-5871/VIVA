@@ -9,12 +9,16 @@
                     <div class="flex items-center space-x-3 mb-6">
                         <div class="w-12 h-12 bg-gradient-to-br from-black-600 to-black-700 rounded-lg flex items-center justify-center group-hover:rotate-180 transition-transform duration-700">
                             <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                                <!-- Using the v.jpeg image as logo -->
-                                <img src="v.jpeg" alt="VIVA ENGINEERING Logo" class="w-8 h-8 object-contain">
+                                <!-- Using settings logo -->
+                                <img src="<?php echo get_setting('logo_path'); ?>" alt="<?php echo get_setting('site_name'); ?> Logo" class="w-8 h-8 object-contain">
                             </div>
                         </div>
                         <div>
-                        <h1 class="text-xl font-heading font-bold tracking-tight text-white">VIVA<span class="text-orange-600"> ENGINEERING</span></h1>
+                        <h1 class="text-xl font-heading font-bold tracking-tight text-white"><?php 
+                            $name = get_setting('site_name');
+                            $parts = explode(' ', $name, 2);
+                            echo $parts[0] . '<span class="text-orange-600"> ' . ($parts[1] ?? '') . '</span>';
+                        ?></h1>
                         <p class="text-xs text-gray-400 tracking-widest">Think Big We Do</p>
                     </div>
                     </div>
@@ -22,17 +26,14 @@
                         Engineering the future of industrial manufacturing with precision, innovation, and timeless durability.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800">
+                        <a href="<?php echo get_setting('linkedin_url'); ?>" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800" target="_blank">
                             <i class="fab fa-linkedin-in text-gray-400 hover:text-white"></i>
                         </a>
-                        <a href="#" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800">
-                            <i class="fab fa-twitter text-gray-400 hover:text-white"></i>
+                        <a href="<?php echo get_setting('facebook_url'); ?>" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800" target="_blank">
+                            <i class="fab fa-facebook-f text-gray-400 hover:text-white"></i>
                         </a>
-                        <a href="#" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800">
+                        <a href="<?php echo get_setting('instagram_url'); ?>" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800" target="_blank">
                             <i class="fab fa-instagram text-gray-400 hover:text-white"></i>
-                        </a>
-                        <a href="#" class="social-icon w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center hover:bg-orange-600 transition duration-300 border border-gray-800">
-                            <i class="fab fa-youtube text-gray-400 hover:text-white"></i>
                         </a>
                     </div>
                 </div>
@@ -67,15 +68,15 @@
                     <div class="space-y-4">
                         <div class="flex items-start space-x-3">
                             <i class="fas fa-map-marker-alt text-orange-600 mt-1"></i>
-                            <span class="text-gray-400"> Plot No. 17 , K.P.Ind.Estate, <br> Bakrol Bujrang Road Bakrol, <br> Ahmedabad, Gujarat - 382430 <br> India</span>
+                            <span class="text-gray-400"><?php echo get_setting('address'); ?></span>
                         </div>
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-phone text-orange-600"></i>
-                            <a href="tel:+911234567890" class="text-gray-400 hover:text-orange-600 transition duration-300">+91 92656 09416 <br> +91 99244 41090 </a>
+                            <a href="tel:<?php echo str_replace(' ', '', get_setting('contact_phone')); ?>" class="text-gray-400 hover:text-orange-600 transition duration-300"><?php echo get_setting('contact_phone'); ?></a>
                         </div>
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-envelope text-orange-600"></i>
-                            <a href="mailto:info@vivaengineering.com" class="text-gray-400 hover:text-orange-600 transition duration-300">vivaengineering@yahoo.com <br> sales@vivaengg.com </a>
+                            <a href="mailto:<?php echo get_setting('contact_email'); ?>" class="text-gray-400 hover:text-orange-600 transition duration-300"><?php echo get_setting('contact_email'); ?></a>
                         </div>
                        
                     </div>
@@ -86,7 +87,7 @@
             <div class="border-t border-gray-800 pt-8">
                 <div class="flex flex-col lg:flex-row justify-between items-center">
                     <p class="text-gray-400 text-sm mb-4 lg:mb-0">
-                        © 2023 VIVA ENGINEERING. All rights reserved.
+                        © <?php echo date('Y'); ?> <?php echo get_setting('site_name'); ?>. All rights reserved.
                     </p>
                     <div class="flex space-x-6">
                         <a href="#" class="text-gray-400 hover:text-orange-600 text-sm transition duration-300">Privacy Policy</a>
@@ -103,38 +104,40 @@
         <i class="fas fa-chevron-up"></i>
     </button>
     
-    <!-- JavaScript -->
+    <!-- JavaScript Libraries -->
+    <!-- GSAP Core & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.0/dist/lenis.min.js"></script>
+    
+    <!-- AOS (Animate On Scroll) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
     <script src="js/custom.js"></script>
     
     <script>
-        // Initialize AOS (Animate On Scroll)
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 100
-            });
-        }
-        
-        // Back to Top Button
-        const backToTopButton = document.getElementById('back-to-top');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.remove('opacity-0', 'invisible');
-                backToTopButton.classList.add('opacity-100', 'visible');
-            } else {
-                backToTopButton.classList.remove('opacity-100', 'visible');
-                backToTopButton.classList.add('opacity-0', 'invisible');
+        // Robust loading screen removal
+        function hideLoader() {
+            const loader = document.getElementById('loading-screen');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
             }
-        });
-        
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        }
+
+        if (document.readyState === 'complete') {
+            hideLoader();
+        } else {
+            window.addEventListener('load', hideLoader);
+        }
+
+        // Fallback: Force hide after 5 seconds if still visible
+        setTimeout(hideLoader, 5000);
     </script>
 </body>
 </html>

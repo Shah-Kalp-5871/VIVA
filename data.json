@@ -1,0 +1,101 @@
+[
+    {
+        "id": 1,
+        "name": "Slitting Rewinding Applications",
+        "slug": "slitting-rewinding-applications",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "assets\/images\/categories\/slitting-rewinding.jpg",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 2,
+        "name": "Center Shaft Slitting Rewinding Machines",
+        "slug": "center-shaft-slitting-rewinding-machines",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "assets\/images\/categories\/center-shaft-slitting.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 3,
+        "name": "Roll to Roll Processing Machines",
+        "slug": "roll-to-roll-processing-machines",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "assets\/images\/categories\/roll-to-roll.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 4,
+        "name": "Aluminium Foil Processing Machines",
+        "slug": "aluminium-foil-processing-machines",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "uploads\/media\/viva_import_1774265609_69c12509718c6.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 5,
+        "name": "Printing Converting & Processing Machines",
+        "slug": "printing-converting-processing-machines",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "assets\/images\/categories\/printing-converting.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 6,
+        "name": "Adhesive Tape Processing machines",
+        "slug": "adhesive-tape-processing-machines",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "uploads\/media\/viva_import_1774265609_69c125099cbbc.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 7,
+        "name": "Coating Processing machines",
+        "slug": "coating-processing-machines",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 8,
+        "name": "Plastic Film Embossing machine",
+        "slug": "plastic-film-embossing-machine",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "uploads\/media\/viva_import_1774265609_69c1250990649.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    },
+    {
+        "id": 9,
+        "name": "Extra Converting machine & Equipment",
+        "slug": "extra-converting-machine-equipment",
+        "status": "active",
+        "parent_id": null,
+        "description": null,
+        "image": "uploads\/media\/viva_import_1774265609_69c12509718c6.png",
+        "created_at": "2026-03-27 15:43:40",
+        "featured": 0
+    }
+]

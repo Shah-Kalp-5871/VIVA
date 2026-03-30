@@ -1,0 +1,74 @@
+[
+    {
+        "Field": "id",
+        "Type": "int(11)",
+        "Null": "NO",
+        "Key": "PRI",
+        "Default": null,
+        "Extra": "auto_increment"
+    },
+    {
+        "Field": "name",
+        "Type": "varchar(255)",
+        "Null": "NO",
+        "Key": "",
+        "Default": null,
+        "Extra": ""
+    },
+    {
+        "Field": "slug",
+        "Type": "varchar(255)",
+        "Null": "NO",
+        "Key": "UNI",
+        "Default": null,
+        "Extra": ""
+    },
+    {
+        "Field": "status",
+        "Type": "enum('active','inactive')",
+        "Null": "YES",
+        "Key": "",
+        "Default": "active",
+        "Extra": ""
+    },
+    {
+        "Field": "parent_id",
+        "Type": "int(11)",
+        "Null": "YES",
+        "Key": "MUL",
+        "Default": null,
+        "Extra": ""
+    },
+    {
+        "Field": "description",
+        "Type": "text",
+        "Null": "YES",
+        "Key": "",
+        "Default": null,
+        "Extra": ""
+    },
+    {
+        "Field": "image",
+        "Type": "varchar(255)",
+        "Null": "YES",
+        "Key": "",
+        "Default": null,
+        "Extra": ""
+    },
+    {
+        "Field": "created_at",
+        "Type": "timestamp",
+        "Null": "NO",
+        "Key": "",
+        "Default": "current_timestamp()",
+        "Extra": ""
+    },
+    {
+        "Field": "featured",
+        "Type": "tinyint(1)",
+        "Null": "YES",
+        "Key": "",
+        "Default": "0",
+        "Extra": ""
+    }
+]

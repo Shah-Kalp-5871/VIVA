@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/../admin/includes/config.php';
+require_once __DIR__ . '/../data/site-settings.php';
+require_once __DIR__ . '/../data/products-data.php';
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
@@ -6,32 +9,31 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Film Slitting Rewinding Machine, Slitting Rewinding Machine Manufacturer, Film Slitting Machine India, Roll to Roll Slitting Machine, Jumbo Roll Slitting Machine, Film Converting Machine, Slitting Rewinder for Plastic Film">
+    <meta name="keywords" content="<?php echo get_setting('meta_keywords'); ?>">
 
     
     <!-- SEO Meta Tags -->
     <title><?php 
     if(isset($page_title)) {
-        echo $page_title;
+        echo $page_title . ' | ' . get_setting('site_name');
     } else {
-        if($current_page == 'index.php') echo "VIVA ENGINEERING | Premium Industrial Machinery";
-        elseif($current_page == 'about.php') echo "About VIVA ENGINEERING | Engineering Excellence";
-        elseif($current_page == 'products.php') echo "Products | VIVA ENGINEERING Solutions";
-        elseif($current_page == 'gallery.php') echo "Gallery | VIVA ENGINEERING Projects";
-        elseif($current_page == 'contact.php') echo "Contact VIVA ENGINEERING | Get a Quote";
-        else echo "VIVA ENGINEERING | Industrial Machinery";
+        if($current_page == 'index.php') echo get_setting('site_title');
+        else echo ucwords(str_replace('.php', '', $current_page)) . ' | ' . get_setting('site_name');
     }
     ?></title>
     
-    <meta name="description" content="<?php echo isset($meta_description) ? htmlspecialchars($meta_description) : 'VIVA ENGINEERING - Precision engineering in slitting, rewinding, and coating machinery. Industrial manufacturing excellence.'; ?>">
-    <meta name="keywords" content="Film Slitting Rewinding Machine, Slitting Rewinding Machine Manufacturer, Film Slitting Machine India, Roll to Roll Slitting Machine, Jumbo Roll Slitting Machine, Film Converting Machine, Slitting Rewinder for Plastic Film">
-    <meta name="author" content="VIVA ENGINEERING">
+    <meta name="description" content="<?php echo isset($meta_description) ? h($meta_description) : get_setting('meta_description'); ?>">
+    <meta name="keywords" content="<?php echo isset($meta_keywords) ? h($meta_keywords) : get_setting('meta_keywords'); ?>">
+    <meta name="author" content="<?php echo get_setting('site_name'); ?>">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Slab:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Styles -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -94,272 +96,145 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </script>
     
     <!-- Custom CSS -->
-    <style>
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #111111;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #FF5722;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #E64A19;
-        }
-        
-        /* Navigation Link Animations */
-        .nav-link {
-            position: relative;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-        }
-        
-       
-        
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        
-        .nav-link.active {
-            color: #FF5722;
-            font-weight: 600;
-        }
-        
-        /* Mobile Navigation Links */
-        .mobile-nav-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #333333;
-            transition: all 0.3s ease;
-        }
-        
-        .mobile-nav-link:hover {
-            color: #FF5722;
-            padding-left: 8px;
-        }
-        
-        .mobile-nav-link.active {
-            color: #FF5722;
-            font-weight: 600;
-        }
-        
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Section Title */
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-        }
-        
-        /* Section Subtitle */
-        .section-subtitle {
-            font-size: 1.125rem;
-            color: #9ca3af;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        /* Buttons */
-        .btn-primary {
-            background: #FF5722;
-            color: #ffffff;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: #E64A19;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.3);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: #FF5722;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-weight: 600;
-            border: 2px solid #FF5722;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-secondary:hover {
-            background: #FF5722;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-        
-        /* Stats */
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #FF5722;
-            line-height: 1;
-        }
-        
-        /* Product Card */
-        .product-card {
-            background: #1a1a1a;
-            border-radius: 16px;
-            border: 1px solid #333333;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(255, 87, 34, 0.15);
-            border-color: #FF5722;
-        }
-        
-        .img-hover-zoom {
-            overflow: hidden;
-        }
-        
-        .img-hover-zoom img {
-            transition: transform 0.6s ease;
-        }
-        
-        .product-card:hover .img-hover-zoom img {
-            transform: scale(1.1);
-        }
-        
-        /* Feature Card */
-        .feature-card {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 32px;
-            border: 1px solid #333333;
-            transition: all 0.4s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(255, 87, 34, 0.1);
-            border-color: #FF5722;
-        }
-        
-        .icon-wrapper {
-            width: 64px;
-            height: 64px;
-            background: #333333;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 24px;
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover .icon-wrapper {
-            background: #FF5722;
-        }
-        
-        .feature-card:hover .icon-wrapper i {
-            color: #ffffff;
-        }
-        
-        /* Testimonial Card */
-        .testimonial-card {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 40px;
-            border: 1px solid #333333;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-        
-        /* Hamburger Menu Animation */
-        #mobile-menu.active {
-            transform: translateX(0);
-        }
-        
-        #mobile-menu-button.active #bar1 {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-        
-        #mobile-menu-button.active #bar2 {
-            transform: rotate(-45deg) translate(1px, -1px);
-        }
-        
-        #mobile-menu-button.active #bar3 {
-            width: 32px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 2.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/custom.css">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="v.jpeg">
-    <link rel="shortcut icon" type="image/jpeg" href="v.jpeg">
-    <link rel="apple-touch-icon" type="image/jpeg" href="v.jpeg">
+    <link rel="icon" type="image/png" href="<?php echo get_setting('favicon_path'); ?>">
+    <link rel="shortcut icon" type="image/png" href="<?php echo get_setting('favicon_path'); ?>">
+    <link rel="apple-touch-icon" type="image/png" href="<?php echo get_setting('favicon_path'); ?>">
 </head>
 <body class="bg-black text-white font-body">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-ring"></div>
+        <p class="text-gradient-orange font-heading font-bold animate-pulse">VIVA ENGINEERING</p>
+    </div>
     
     <!-- Navigation -->
     <nav class="sticky top-0 w-full bg-black/95 backdrop-blur-sm z-50 border-b border-gray-800 shadow-lg">
-        <div class="container mx-auto px-4 lg:px-8">
+        <div class="container mx-auto px-4 lg:px-8 relative">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
                 <a href="index.php" class="flex items-center space-x-3 group">
                     <div class="relative">
                         <div class="w-12 h-12 bg-gradient-to-br from-black-600 to-black-700 rounded-lg flex items-center justify-center  transition-transform duration-700">
                             <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                                <!-- Using the v.jpeg image as logo -->
-                                <img src="v.jpeg" alt="VIVA ENGINEERING Logo" class="w-8 h-8 object-contain">
+                                <!-- Using settings logo -->
+                                <img src="<?php echo get_setting('logo_path'); ?>" alt="<?php echo get_setting('site_name'); ?> Logo" class="w-8 h-8 object-contain">
                             </div>
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-xl font-heading font-bold tracking-tight text-white">VIVA<span class="text-orange-600"> ENGINEERING</span></h1>
+                        <h1 class="text-xl font-heading font-bold tracking-tight text-white"><?php 
+                            $name = get_setting('site_name');
+                            $parts = explode(' ', $name, 2);
+                            echo $parts[0] . '<span class="text-orange-600"> ' . ($parts[1] ?? '') . '</span>';
+                        ?></h1>
                         <p class="text-xs text-gray-400 tracking-widest">Think Big We Do</p>
                     </div>
                 </a>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex items-center space-x-10">
-                    <a href="index.php" class="nav-link <?php echo $current_page == 'index.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600">Home</a>
-                    <a href="products.php" class="nav-link <?php echo $current_page == 'products.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600">Products</a>
-                    <a href="about.php" class="nav-link <?php echo $current_page == 'about.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600">About</a>
-                    <a href="gallery.php" class="nav-link <?php echo $current_page == 'gallery.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600">Gallery</a>
-                    <a href="contact.php" class="nav-link <?php echo $current_page == 'contact.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600">Contact</a>
+                    <a href="index.php" class="nav-link <?php echo $current_page == 'index.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600 transition-colors duration-300">Home</a>
                     
-                    
+                    <!-- Products Mega Menu -->
+                    <div class="group/mega static">
+                        <a href="products.php" class="nav-link <?php echo $current_page == 'products.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600 flex items-center transition-colors duration-300">
+                            Products
+                            <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300 group-hover/mega:rotate-180"></i>
+                        </a>
+                        
+                        <!-- Mega Menu Container -->
+                        <div class="absolute inset-x-0 top-full bg-black/95 backdrop-blur-xl border-x border-b border-gray-800 hidden group-hover/mega:block z-[100] py-12 shadow-2xl overflow-y-auto max-h-[80vh] animate-slide-down">
+                            <div class="container mx-auto px-4 lg:px-8">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+                                    <?php 
+                                    // Fetch all 9 top-level groups from DB
+                                    $stmt_cat = $pdo->query("SELECT * FROM categories WHERE parent_id IS NULL AND status = 'active' ORDER BY id ASC");
+                                    while($category = $stmt_cat->fetch()): 
+                                    ?>
+                                    <div class="mega-column group/col">
+                                        <!-- Category Header with Image -->
+                                        <div class="relative w-full h-32 mb-4 overflow-hidden rounded-lg border border-gray-800 group-hover/col:border-orange-600 transition-all duration-500 shadow-lg">
+                                            <img src="<?php echo h($category['image']); ?>" alt="<?php echo h($category['name']); ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover/col:scale-110">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-3 left-3 right-3">
+                                                <h3 class="text-white font-heading font-bold text-[10px] uppercase tracking-wider group-hover/col:text-orange-500 transition-colors duration-300 leading-tight">
+                                                    <a href="products.php?category=<?php echo h($category['slug']); ?>">
+                                                        <?php echo h($category['name']); ?>
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Sub-items List (Categories or Products) -->
+                                        <ul class="space-y-2 px-1">
+                                            <?php 
+                                            // 1. First look for sub-categories
+                                            $stmt_sc = $pdo->prepare("SELECT * FROM categories WHERE parent_id = ? AND status = 'active' ORDER BY name ASC LIMIT 6");
+                                            $stmt_sc->execute([$category['id']]);
+                                            $sub_cats = $stmt_sc->fetchAll();
+
+                                            if (!empty($sub_cats)): 
+                                                foreach ($sub_cats as $sc): 
+                                            ?>
+                                                <li>
+                                                    <a href="products.php?category=<?php echo h($sc['slug']); ?>" class="text-gray-400 hover:text-white text-[11px] transition-all duration-300 flex items-center group/item">
+                                                        <span class="w-1 h-1 bg-orange-600 rounded-full mr-2 group-hover/item:scale-125 transition-transform"></span>
+                                                        <?php echo h($sc['name']); ?>
+                                                    </a>
+                                                </li>
+                                            <?php 
+                                                endforeach;
+                                            else:
+                                                // 2. If no sub-categories, look for products directly
+                                                $stmt_p = $pdo->prepare("SELECT * FROM products WHERE category_id = ? AND status = 'active' ORDER BY name ASC LIMIT 6");
+                                                $stmt_p->execute([$category['id']]);
+                                                $prods = $stmt_p->fetchAll();
+                                                
+                                                foreach ($prods as $p):
+                                            ?>
+                                                <li>
+                                                    <a href="product-detail.php?product=<?php echo h($p['slug']); ?>" class="text-gray-400 hover:text-white text-[11px] transition-all duration-300 flex items-center group/item">
+                                                        <span class="w-1 h-1 bg-orange-600 rounded-full mr-2 group-hover/item:scale-125 transition-transform"></span>
+                                                        <?php echo h($p['name']); ?>
+                                                    </a>
+                                                </li>
+                                            <?php 
+                                                endforeach;
+                                            endif; 
+                                            ?>
+                                            <li>
+                                                <a href="products.php?category=<?php echo h($category['slug']); ?>" class="text-orange-600/70 hover:text-orange-600 text-[10px] font-bold uppercase tracking-widest mt-2 block">
+                                                    View Group <i class="fas fa-chevron-right text-[8px] ml-1"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <?php endwhile; ?>
+                                </div>
+                                
+                                <!-- Promo Bottom Bar -->
+                                <div class="mt-12 pt-8 border-t border-gray-800 flex justify-between items-center">
+                                    <p class="text-gray-500 text-xs tracking-widest uppercase">Precision Machinery Solutions for Global Industries</p>
+                                    <a href="products.php" class="text-orange-600 hover:text-white text-xs font-bold uppercase tracking-widest flex items-center group/all">
+                                        View All Categories
+                                        <i class="fas fa-arrow-right ml-2 group-hover/all:translate-x-2 transition-transform"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="about.php" class="nav-link <?php echo $current_page == 'about.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600 transition-colors duration-300">About</a>
+                    <a href="gallery.php" class="nav-link <?php echo $current_page == 'gallery.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600 transition-colors duration-300">Gallery</a>
+                    <a href="contact.php" class="nav-link <?php echo $current_page == 'contact.php' ? 'active' : ''; ?> text-gray-300 hover:text-orange-600 transition-colors duration-300">Contact</a>
                 </div>
                 
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="lg:hidden relative z-50 w-12 h-12 flex flex-col justify-center items-center group focus:outline-none">
+                <button id="mobile-menu-button" class="lg:hidden relative z-[200] w-12 h-12 flex flex-col justify-center items-center group focus:outline-none">
                     <span class="w-8 h-0.5 bg-white mb-2 transition-all duration-300 transform origin-center" id="bar1"></span>
                     <span class="w-8 h-0.5 bg-white transition-all duration-300 transform origin-center" id="bar2"></span>
                   
@@ -367,7 +242,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
             
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-screen bg-black transform -translate-x-full transition-transform duration-500 flex flex-col justify-center px-8 z-40">
+            <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-screen bg-black transform -translate-x-full transition-transform duration-500 flex flex-col justify-center px-8 z-[150]">
                 <div class="space-y-6">
                     <a href="index.php" class="mobile-nav-link <?php echo $current_page == 'index.php' ? 'active' : ''; ?> text-gray-300">
                         <span class="text-xl font-medium">Home</span>
@@ -399,40 +274,4 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <!-- Main Content -->
     <main class="pt-0">
 
-    <script>
-    // Mobile Menu Toggle
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const bar1 = document.getElementById('bar1');
-        const bar2 = document.getElementById('bar2');
-        
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('-translate-x-full');
-            mobileMenuButton.classList.toggle('active');
-            
-            // Animate hamburger to X
-            if (mobileMenuButton.classList.contains('active')) {
-                bar1.style.transform = 'rotate(45deg) translate(6px, 6px)';
-                bar2.style.transform = 'rotate(-45deg) translate(1px, -1px)';
-                document.body.style.overflow = 'hidden';
-            } else {
-                bar1.style.transform = 'rotate(0) translate(0, 0)';
-                bar2.style.transform = 'rotate(0) translate(0, 0)';
-                document.body.style.overflow = '';
-            }
-        });
-        
-        // Close mobile menu when clicking on links
-        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenu.classList.add('-translate-x-full');
-                mobileMenuButton.classList.remove('active');
-                bar1.style.transform = 'rotate(0) translate(0, 0)';
-                bar2.style.transform = 'rotate(0) translate(0, 0)';
-                document.body.style.overflow = '';
-            });
-        });
-    });
-    </script>
+    <!-- Mobile Menu Toggle Handled in custom.js -->

@@ -1,0 +1,144 @@
+{
+    "aluminium-foil": {
+        "sub_categories": {
+            "aluminium-foil-rewinding-machine": [
+                "assets\/images\/products\/aluminium-foil-rewinding-machine\/aluminium-foil-rewinding-machine-1.png",
+                "assets\/images\/products\/aluminium-foil-rewinding-machine\/aluminium-foil-rewinding-machine-2.png",
+                "assets\/images\/products\/aluminium-foil-rewinding-machine\/aluminium-foil-rewinding-machine-3.png",
+                "assets\/images\/products\/aluminium-foil-rewinding-machine\/aluminium-foil-rewinding-machine-4.png",
+                "assets\/images\/products\/aluminium-foil-rewinding-machine\/aluminium-foil-rewinding-machine-5.png"
+            ],
+            "aluminium-jumbo-roll-slitting-machine": [
+                "assets\/images\/products\/aluminium-jumbo-roll-slitting-machine\/aluminium-jumbo-roll-slitting-machine-1.png"
+            ]
+        },
+        "main_image": "assets\/images\/categories\/aluminium-foil.png"
+    },
+    "center-shaft-slitting": {
+        "sub_categories": {
+            "plastic-center-shaft-slitting-machine": [
+                "assets\/images\/products\/plastic-center-shaft-slitting-machine\/plastic-center-shaft-slitting-machine-1.png"
+            ],
+            "paper-center-shaft-slitting-machine": [
+                "assets\/images\/products\/paper-center-shaft-slitting-machine\/paper-center-shaft-slitting-machine-1.jpeg",
+                "assets\/images\/products\/paper-center-shaft-slitting-machine\/paper-center-shaft-slitting-machine-2.jpeg"
+            ]
+        },
+        "main_image": "assets\/images\/categories\/center-shaft-slitting.png"
+    },
+    "flexographic-printing": {
+        "main_image": "assets\/images\/categories\/flexographic-printing.png"
+    },
+    "masking-tape": {
+        "main_image": "assets\/images\/categories\/masking-tape.png"
+    },
+    "printing-converting": {
+        "sub_categories": {
+            "rotogravure-printing-machine": [
+                "assets\/images\/products\/rotogravure-printing-machine\/rotogravure-printing-machine-1.png"
+            ]
+        },
+        "main_image": "assets\/images\/categories\/printing-converting.png"
+    },
+    "roll-to-roll": {
+        "sub_categories": {
+            "doctroring-rewinding-machine-for-batch-coding": [
+                "assets\/images\/products\/doctroring-rewinding-machine-for-batch-coding\/doctroring-rewinding-machine-for-batch-coding-1.png",
+                "assets\/images\/products\/doctroring-rewinding-machine-for-batch-coding\/doctroring-rewinding-machine-for-batch-coding-2.png",
+                "assets\/images\/products\/doctroring-rewinding-machine-for-batch-coding\/doctroring-rewinding-machine-for-batch-coding-3.png",
+                "assets\/images\/products\/doctroring-rewinding-machine-for-batch-coding\/doctroring-rewinding-machine-for-batch-coding-4.png",
+                "assets\/images\/products\/doctroring-rewinding-machine-for-batch-coding\/doctroring-rewinding-machine-for-batch-coding-5.png",
+                "assets\/images\/products\/doctroring-rewinding-machine-for-batch-coding\/doctroring-rewinding-machine-for-batch-coding-6.png"
+            ],
+            "hm-paper-rewinding-machine--notebook-paper-rewinding-machine": [
+                "assets\/images\/products\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine-1.png",
+                "assets\/images\/products\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine-2.png",
+                "assets\/images\/products\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine-3.png",
+                "assets\/images\/products\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine\/hm-paper-rewinding-machine--notebook-paper-rewinding-machine-4.png"
+            ],
+            "paper-rewinding-machine": [
+                "assets\/images\/products\/paper-rewinding-machine\/paper-rewinding-machine-1.png",
+                "assets\/images\/products\/paper-rewinding-machine\/paper-rewinding-machine-2.png",
+                "assets\/images\/products\/paper-rewinding-machine\/paper-rewinding-machine-3.png"
+            ],
+            "wining-rewinding-machine": [
+                "assets\/images\/products\/wining-rewinding-machine\/wining-rewinding-machine-1.jpg",
+                "assets\/images\/products\/wining-rewinding-machine\/wining-rewinding-machine-2.jpg",
+                "assets\/images\/products\/wining-rewinding-machine\/wining-rewinding-machine-3.jpg",
+                "assets\/images\/products\/wining-rewinding-machine\/wining-rewinding-machine-4.jpg",
+                "assets\/images\/products\/wining-rewinding-machine\/wining-rewinding-machine-5.jpg",
+                "assets\/images\/products\/wining-rewinding-machine\/wining-rewinding-machine-6.jpg"
+            ]
+        },
+        "main_image": "assets\/images\/categories\/roll-to-roll.png"
+    },
+    "slitting-rewinding": {
+        "sub_categories": {
+            "non-vowen-slitting-machine": [
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-1.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-2.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-3.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-4.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-5.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-6.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-7.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-8.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-9.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-10.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-11.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-12.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-13.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-14.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-15.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-16.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-17.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-18.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-19.jpg",
+                "assets\/images\/products\/non-vowen-slitting-machine\/non-vowen-slitting-machine-20.jpg"
+            ],
+            "paper-slitting-machine": [
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-1.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-2.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-3.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-4.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-5.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-6.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-7.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-8.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-9.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-10.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-11.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-12.png",
+                "assets\/images\/products\/paper-slitting-machine\/paper-slitting-machine-13.png"
+            ],
+            "plastic-slitting-machine": [
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-1.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-2.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-3.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-4.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-5.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-6.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-7.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-8.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-9.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-10.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-11.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-12.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-13.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-14.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-15.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-16.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-17.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-18.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-19.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-20.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-21.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-22.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-23.png",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-24.jpg",
+                "assets\/images\/products\/plastic-slitting-machine\/plastic-slitting-machine-25.png"
+            ]
+        },
+        "main_image": "assets\/images\/categories\/slitting-rewinding.jpg"
+    }
+}

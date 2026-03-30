@@ -1,66 +1,60 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+include 'includes/header.php'; 
 
-<!-- Loading Screen -->
-<div id="loading-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-black">
-    <div class="text-center">
-        <!-- Logo with animation -->
-        <div class="relative mb-8">
-            <div class="w-32 h-32 mx-auto rounded-lg flex items-center justify-center animate-pulse">
-                <div class="w-28 h-28 bg-white rounded-lg flex items-center justify-center">
-                    <img src="v.png" alt="VIVA ENGINEERING Logo" class="w-24 h-24 object-contain">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Loading text -->
-        <h1 class="text-xl font-heading font-bold tracking-tight text-white">VIVA<span class="text-orange-600"> ENGINEERING</span></h1>
-        </div>
-       
-    </div>
-</div>
+// Fetch Settings
+$hero_bg = str_replace('/VIVA/', '', get_setting('hero_bg_path', 'assets/images/hero-main.jpg'));
+$about_img = str_replace('/VIVA/', '', get_setting('about_image_path', 'assets/images/about-viva.jpg'));
+$services_bg = str_replace('/VIVA/', '', get_setting('services_bg_path', 'assets/images/services-bg.jpg'));
+?>
 
-<!-- Hero Section - Optimized for all screens -->
-<section class="hero-section relative min-h-[85vh] md:min-h-screen flex items-center overflow-hidden bg-black opacity-0">
+<!-- Hero Section - Properly fitted to screen -->
+<section class="hero-section relative h-[calc(100vh-80px)] max-h-[900px] min-h-[500px] flex items-center overflow-hidden bg-black opacity-0">
     <!-- Background Video/Image with Overlay -->
     <div class="absolute inset-0 z-0">
-        <img src="https://images.squarespace-cdn.com/content/v1/68f19037a6ccb551c3647085/3836efa6-0513-42d2-b2b1-bb656c8047cb/giftest-ezgif.com-video-to-gif-converter.gif" 
-             alt="Industrial Machinery"
-             class="w-full h-full object-cover opacity-40">
-        <div class="absolute inset-0 bg-gradient-to-r  to-transparent"></div>
+        <img src="<?php echo h($hero_bg); ?>" 
+             alt="VIVA Engineering Machinery"
+             class="w-full h-full object-cover opacity-60">
+        <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
     </div>
     
-    <div class="container mx-auto px-4 lg:px-8 relative z-10 py-8 md:py-0">
-        <div class="flex flex-col lg:flex-row items-center justify-between">
-            <div class="lg:w-2/3">
-                <div class="max-w-5xl">
+    <div class="container mx-auto px-4 lg:px-8 relative z-10 py-6">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div class="lg:w-3/5">
+                <div class="max-w-3xl">
                     <!-- Small Badge -->
-                    <div class="hero-badge inline-flex items-center space-x-2 bg-orange-600/20 border border-orange-600/50 px-4 py-2 rounded-sm mb-6 md:mb-8 opacity-0 transform translate-y-10">
+                    <div class="hero-badge inline-flex items-center space-x-2 bg-orange-600/20 border border-orange-600/50 px-4 py-1.5 rounded-sm mb-4 md:mb-5 opacity-0 transform translate-y-10">
                         <span class="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></span>
-                        <span class="text-sm font-medium text-orange-600 uppercase tracking-wider">Industrial Excellence</span>
+                        <span class="text-xs font-medium text-orange-600 uppercase tracking-wider">Industrial Excellence</span>
                     </div>
                     
-                    <!-- Main Heading - Responsive text sizes -->
-                    <h1 class="hero-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 md:mb-6 leading-tight transform translate-y-1">
-                        <span class="hero-word inline-block text-nowrap">PRECISION</span>
-                        <span class="block text-gray-400 hero-word-2 text-nowrap">MACHINERY</span>
-                        <span class="block text-orange-600 hero-word-3 text-nowrap">SOLUTIONS</span>
+                    <!-- Main Heading - Compact, screen-fitted -->
+                    <h1 class="hero-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 leading-[1.15] transform translate-y-1">
+                        <?php 
+                        $headline = get_setting('hero_headline');
+                        $words = explode(' ', $headline);
+                        foreach($words as $index => $word) {
+                            if($index == 0) echo '<span class="hero-word inline-block">' . strtoupper($word) . '</span> ';
+                            elseif($index == count($words)-1) echo '<span class="text-orange-600 hero-word-3">' . strtoupper($word) . '</span>';
+                            else echo '<span class="text-gray-400 hero-word-2">' . strtoupper($word) . '</span> ';
+                        }
+                        ?>
                     </h1>
                     
-                    <!-- Description - Responsive -->
-                    <p class="hero-description text-lg sm:text-xl md:text-2xl text-gray-400 mb-8 md:mb-12 max-w-2xl leading-relaxed opacity-0 transform translate-y-10">
-                        We provide comprehensive slitting, cutting, and coating machinery delivering structural strength, precision workmanship, and safety standards.
+                    <!-- Description -->
+                    <p class="hero-description text-base sm:text-lg md:text-xl text-gray-400 mb-6 md:mb-8 max-w-xl leading-relaxed opacity-0 transform translate-y-10">
+                        <?php echo get_setting('hero_subheadline'); ?>
                     </p>
                     
-                    <!-- CTA Buttons - Responsive layout -->
-                    <div class="hero-cta flex flex-col sm:flex-row gap-4 mb-10 md:mb-16 opacity-0 transform translate-y-10">
-                        <a href="products.php" class="group relative px-6 sm:px-8 py-3 sm:py-4 bg-orange-600 text-white font-bold uppercase tracking-wider overflow-hidden transition-all duration-300 hover:bg-orange-700 hover:shadow-xl hover:shadow-orange-600/50 hover:-translate-y-1 text-center text-sm sm:text-base">
+                    <!-- CTA Buttons -->
+                    <div class="hero-cta flex flex-col sm:flex-row gap-3 mb-6 opacity-0 transform translate-y-10">
+                        <a href="products.php" class="group relative px-6 py-3 bg-orange-600 text-white font-bold uppercase tracking-wider overflow-hidden transition-all duration-300 hover:bg-orange-700 hover:shadow-xl hover:shadow-orange-600/50 hover:-translate-y-1 text-center text-sm">
                             <span class="relative z-10 flex items-center justify-center sm:justify-start">
                                 Explore Products 
                                 <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-2 transition-transform duration-300"></i>
                             </span>
                             <div class="absolute inset-0 bg-gradient-to-r from-orange-700 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                         </a>
-                        <a href="contact.php" class="group px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-xl text-center text-sm sm:text-base">
+                        <a href="contact.php" class="group px-6 py-3 border-2 border-white text-white font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 hover:-translate-y-1 hover:shadow-xl text-center text-sm">
                             <span class="flex items-center justify-center sm:justify-start">
                                 Get a Quote 
                                 <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-2 transition-transform duration-300"></i>
@@ -70,58 +64,59 @@
                 </div>
             </div>
             
-            <!-- Right Side - Vertical Stats Counter -->
-            <div class="lg:w-1/3 mt-12 lg:mt-0">
-                <div class="stats-vertical bg-black/40 backdrop-blur-sm border border-gray-800/50 rounded-xl p-6 lg:p-8 opacity-0 transform translate-x-10">
-                    <!-- Stat 1 -->
-                    <div class="stat-item mb-8">
-                        <div class="flex items-baseline gap-2">
-                            <div class="stat-number text-5xl lg:text-6xl font-bold text-orange-600" data-value="50">0</div>
-                            <span class="text-orange-600 text-3xl font-bold">+</span>
-                        </div>
-                        <div class="flex items-center gap-2 mt-2">
-                            <div class="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
-                            <p class="text-gray-300 text-sm uppercase tracking-wider">Machines Delivered</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Stat 2 -->
-                    <div class="stat-item mb-8">
-                        <div class="flex items-baseline gap-2">
-                            <div class="stat-number text-5xl lg:text-6xl font-bold text-orange-600" data-value="16">0</div>
-                            <span class="text-orange-600 text-3xl font-bold">+</span>
-                        </div>
-                        <div class="flex items-center gap-2 mt-2">
-                            <div class="w-2 h-2 bg-orange-600 rounded-full animate-pulse" style="animation-delay: 0.3s"></div>
-                            <p class="text-gray-300 text-sm uppercase tracking-wider">Years Experience</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Stat 3 -->
-                    <div class="stat-item mb-8">
-                        <div class="flex items-baseline gap-2">
-                            <div class="stat-number text-5xl lg:text-6xl font-bold text-orange-600" data-value="100">0</div>
-                            <span class="text-orange-600 text-3xl font-bold">%</span>
-                        </div>
-                        <div class="flex items-center gap-2 mt-2">
-                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" style="animation-delay: 0.6s"></div>
-                            <p class="text-gray-300 text-sm uppercase tracking-wider">Quality Assured</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Stat 4 -->
-                    <div class="stat-item">
-                        <div class="flex items-baseline gap-2">
-                            <div class="flex items-baseline">
-                                <div class="stat-number text-5xl lg:text-6xl font-bold text-orange-600" data-value="24">0</div>
-                                <span class="text-orange-600 text-4xl font-bold mx-1">/</span>
-                                <div class="stat-number text-5xl lg:text-6xl font-bold text-orange-600" data-value="7">0</div>
+            <!-- Right Side - Compact Stats Counter -->
+            <div class="lg:w-2/5 mt-0 lg:mt-0">
+                <div class="stats-vertical bg-black/40 backdrop-blur-sm border border-gray-800/50 rounded-xl p-5 lg:p-6 opacity-0 transform translate-x-10">
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-5">
+                        <!-- Stat 1 -->
+                        <div class="stat-item">
+                            <div class="flex items-baseline gap-1">
+                                <div class="stat-number text-3xl lg:text-4xl font-bold text-orange-600" data-value="50">0</div>
+                                <span class="text-orange-600 text-xl font-bold">+</span>
                             </div>
-                            <i class="fas fa-headset text-2xl text-orange-600 ml-2"></i>
+                            <div class="flex items-center gap-1.5 mt-1">
+                                <div class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse"></div>
+                                <p class="text-gray-300 text-xs uppercase tracking-wider">Machines Delivered</p>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2 mt-2">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style="animation-delay: 0.9s"></div>
-                            <p class="text-gray-300 text-sm uppercase tracking-wider">Support Available</p>
+                        
+                        <!-- Stat 2 -->
+                        <div class="stat-item">
+                            <div class="flex items-baseline gap-1">
+                                <div class="stat-number text-3xl lg:text-4xl font-bold text-orange-600" data-value="16">0</div>
+                                <span class="text-orange-600 text-xl font-bold">+</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 mt-1">
+                                <div class="w-1.5 h-1.5 bg-orange-600 rounded-full animate-pulse" style="animation-delay: 0.3s"></div>
+                                <p class="text-gray-300 text-xs uppercase tracking-wider">Years Experience</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Stat 3 -->
+                        <div class="stat-item">
+                            <div class="flex items-baseline gap-1">
+                                <div class="stat-number text-3xl lg:text-4xl font-bold text-orange-600" data-value="100">0</div>
+                                <span class="text-orange-600 text-xl font-bold">%</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 mt-1">
+                                <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" style="animation-delay: 0.6s"></div>
+                                <p class="text-gray-300 text-xs uppercase tracking-wider">Quality Assured</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Stat 4 -->
+                        <div class="stat-item">
+                            <div class="flex items-baseline gap-1">
+                                <div class="flex items-baseline">
+                                    <div class="stat-number text-3xl lg:text-4xl font-bold text-orange-600" data-value="24">0</div>
+                                    <span class="text-orange-600 text-xl font-bold mx-0.5">/</span>
+                                    <div class="stat-number text-3xl lg:text-4xl font-bold text-orange-600" data-value="7">0</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 mt-1">
+                                <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" style="animation-delay: 0.9s"></div>
+                                <p class="text-gray-300 text-xs uppercase tracking-wider">Support Available</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,14 +126,14 @@
 </section>
 
 <!-- About Section with Orange Card -->
-<section class="py-20 bg-black relative overflow-hidden">
+<section class="py-12 bg-black relative overflow-hidden">
     <div class="container mx-auto px-4 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <!-- Left - Image -->
             <div class="about-image relative opacity-0 transform translate-x-[-100px]">
                 <div class="relative rounded-sm overflow-hidden group">
-                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                         alt="About Us"
+                    <img src="<?php echo h($about_img); ?>" 
+                         alt="About VIVA Engineering"
                          class="w-full h-[500px] object-cover transform group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     
@@ -202,7 +197,7 @@
 </section>
 
 <!-- Trusted By Section -->
-<section class="py-16 bg-black border-t border-gray-800">
+<section class="py-10 bg-black border-t border-gray-800">
     <div class="container mx-auto px-4 lg:px-8">
         <div class="trusted-title text-center mb-12 opacity-0 transform translate-y-10">
             <p class="text-gray-400 text-lg">
@@ -212,17 +207,21 @@
         
         <!-- Logo Slider with Animation -->
         <div class="logo-slider flex flex-wrap justify-center items-center gap-12">
-            <div class="logo-item text-white text-2xl font-bold opacity-50 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">CLIENT LOGO</div>
-            <div class="logo-item text-white text-2xl font-bold opacity-50 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">CLIENT LOGO</div>
-            <div class="logo-item text-white text-2xl font-bold opacity-50 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">CLIENT LOGO</div>
-            <div class="logo-item text-white text-2xl font-bold opacity-50 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">CLIENT LOGO</div>
-            <div class="logo-item text-white text-2xl font-bold opacity-50 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">CLIENT LOGO</div>
+            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">SIEMENS</div>
+            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">MITSUBISHI</div>
+            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">DELTA</div>
+            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">OMRON</div>
+            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">SCHNEIDER</div>
         </div>
     </div>
 </section>
 
 <!-- Services Section -->
-<section class="py-20 bg-black">
+<section class="py-20 bg-black relative overflow-hidden">
+    <!-- Static Background with Overlay -->
+    <div class="absolute inset-0 z-0 opacity-10">
+        <img src="<?php echo h($services_bg); ?>" alt="Services Background" class="w-full h-full object-cover">
+    </div>
     <div class="container mx-auto px-4 lg:px-8">
         <div class="services-header text-center mb-16 opacity-0 transform translate-y-10">
             <div class="inline-block mb-6">
@@ -319,6 +318,45 @@
     </div>
 </section>
 
+<!-- Featured Categories Section -->
+<section class="py-20 bg-gray-900/50 relative overflow-hidden">
+    <div class="container mx-auto px-4 lg:px-8">
+        <div class="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
+            <div class="opacity-0 transform -translate-x-10 animate-on-scroll">
+                <span class="text-orange-600 text-sm font-black uppercase tracking-[0.3em] mb-4 block">Machinery Categories</span>
+                <h2 class="text-4xl font-bold text-white leading-tight">
+                    EXPLORE OUR <br>
+                    <span class="text-gray-500 italic">CORE INDUSTRIES</span>
+                </h2>
+            </div>
+            <div class="opacity-0 transform translate-x-10 animate-on-scroll">
+                <a href="products.php" class="text-orange-600 font-bold uppercase tracking-widest text-xs flex items-center group">
+                    View All Categories
+                    <i class="fas fa-chevron-right ml-3 group-hover:translate-x-2 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <?php
+            $feat_cats = $pdo->query("SELECT * FROM categories WHERE featured = 1 AND status = 'active' LIMIT 4")->fetchAll();
+            foreach ($feat_cats as $fc):
+            ?>
+            <a href="products.php?category=<?php echo h($fc['slug']); ?>" class="group relative h-80 rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-600/50 transition-all duration-700 opacity-0 transform translate-y-10 animate-on-scroll">
+                <img src="<?php echo h(str_replace('/VIVA/', '', $fc['image'])); ?>" alt="<?php echo h($fc['name']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-8 w-full transform group-hover:-translate-y-2 transition-transform duration-500">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-orange-500 transition-colors"><?php echo h($fc['name']); ?></h3>
+                    <div class="w-12 h-1 bg-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                </div>
+                <!-- Blueprint accent -->
+                <div class="absolute top-4 right-4 w-10 h-10 border-t border-r border-white/10 group-hover:border-orange-600/50 transition-colors"></div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
 <!-- Products Section -->
 <section class="py-20 bg-black">
     <div class="container mx-auto px-4 lg:px-8">
@@ -340,66 +378,21 @@
         <!-- Products Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php
-            $products = [
-                [
-                    'id' => 1,
-                    'name' => 'High-Speed Slitting Rewinder',
-                    'image' => 'https://www.slitterchina.com/uploads/41362/automatic-high-speed-slitting-rewinding202407291240119304f.jpg',
-                    'features' => ['Precision Cutting', 'Auto Tension', 'Digital Display'],
-                    'category' => 'Slitting Machine',
-                    'badge' => 'bg-orange-600'
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'BOPP Tape Cutting Machine',
-                    'image' => 'https://images.jdmagicbox.com/quickquotes/images_main/-0io4xa7s.jpg',
-                    'features' => ['BOPP Specific', 'Auto Feeding', 'High Speed'],
-                    'category' => 'Cutting System',
-                    'badge' => 'bg-black'
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Industrial Coating Machine',
-                    'image' => 'https://www.ndccn.com/uploads/NTH2600-1.jpg',
-                    'features' => ['Uniform Coating', 'Quick Drying', 'Precision Control'],
-                    'category' => 'Coating System',
-                    'badge' => 'bg-orange-600'
-                ],
-                [
-                    'id' => 4,
-                    'name' => 'Automatic Tape Making Machine',
-                    'image' => 'https://images.jdmagicbox.com/quickquotes/images_main/fully-automatic-bopp-tape-making-machine-801580281-wkpg68ce.jpg',
-                    'features' => ['Complete Line', 'Auto Winding', 'Quality Control'],
-                    'category' => 'Tape Machine',
-                    'badge' => 'bg-black'
-                ],
-                [
-                    'id' => 5,
-                    'name' => 'Web Slitting System',
-                    'image' => 'https://www.paperlabeltech.com/wp-content/uploads/2023/08/IMG_20211103_1521021-1.png',
-                    'features' => ['Auto Cutting', 'Programmable', 'High Speed'],
-                    'category' => 'Slitting Machine',
-                    'badge' => 'bg-orange-600'
-                ],
-                [
-                    'id' => 6,
-                    'name' => 'Heavy Duty Rewinder',
-                    'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlXut8EdfTW0032uTckUpMwHwLxChjmXWHug&s',
-                    'features' => ['Heavy Duty', 'Auto Unloading', 'High Capacity'],
-                    'category' => 'Rewinding System',
-                    'badge' => 'bg-black'
-                ]
-            ];
+            $stmt = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.featured = 1 AND p.status = 'active' LIMIT 6");
+            $products_list = $stmt->fetchAll();
             
-            foreach ($products as $index => $product):
+            foreach ($products_list as $index => $product):
+                $product_features = parseField($product['features']);
+                // Use a default badge if not set? Or just orange.
+                $badge_class = ($index % 2 == 0) ? 'bg-orange-600' : 'bg-black';
             ?>
             <div class="product-card group relative overflow-hidden bg-gray-900 border border-gray-800 hover:border-orange-600 transition-all duration-700 cursor-pointer opacity-0 transform translate-y-10" 
                  data-delay="<?php echo ($index % 3) * 150; ?>">
                 
                 <!-- Image with Overlay -->
                 <div class="relative h-72 overflow-hidden">
-                    <img src="<?php echo $product['image']; ?>" 
-                         alt="<?php echo $product['name']; ?>"
+                    <img src="<?php echo h(str_replace('/VIVA/', '', $product['image'])); ?>" 
+                         alt="<?php echo h($product['name']); ?>"
                          class="w-full h-full object-cover transform group-hover:scale-125 group-hover:rotate-2 transition-all duration-1000">
                     
                     <!-- Gradient Overlay -->
@@ -407,8 +400,8 @@
                     
                     <!-- Category Badge -->
                     <div class="absolute top-4 left-4 z-10 transform group-hover:scale-110 transition-transform duration-300">
-                        <span class="<?php echo $product['badge']; ?> text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
-                            <?php echo $product['category']; ?>
+                        <span class="<?php echo $badge_class; ?> text-white px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                            <?php echo h($product['category_name']); ?>
                         </span>
                     </div>
                     
@@ -436,23 +429,23 @@
                     </h3>
                     
                     <div class="space-y-3 mb-6">
-                        <?php foreach ($product['features'] as $idx => $feature): ?>
+                        <?php foreach (array_slice($product_features, 0, 3) as $idx => $feature): ?>
                         <div class="flex items-center text-gray-400 group-hover:text-gray-300 transition-all duration-300 transform translate-x-0 group-hover:translate-x-2" style="transition-delay: <?php echo $idx * 100; ?>ms">
                             <div class="w-2 h-2 bg-orange-600 rounded-full mr-3 group-hover:scale-150 transition-transform duration-300"></div>
-                            <span class="text-sm"><?php echo $feature; ?></span>
+                            <span class="text-sm"><?php echo h($feature); ?></span>
                         </div>
                         <?php endforeach; ?>
                     </div>
                     
                     <div class="flex items-center justify-between">
-                        <a href="product-detail.php?id=<?php echo $product['id']; ?>" 
+                        <a href="product-detail.php?product=<?php echo h($product['slug']); ?>" 
                            class="group/btn inline-flex items-center text-orange-600 font-bold uppercase text-sm hover:text-orange-500 transition-colors duration-300">
                             View Details 
                             <i class="fas fa-arrow-right ml-2 transform group-hover/btn:translate-x-3 transition-transform duration-300"></i>
                         </a>
                         
                         <span class="text-white text-sm font-bold px-3 py-1.5 bg-gray-800 rounded-full transform group-hover:scale-110 group-hover:bg-orange-600 transition-all duration-300">
-                            <i class="fas fa-tag mr-1"></i> Custom
+                            <i class="fas fa-tag mr-1"></i> <?php echo h($product['tag'] ?: 'Premium'); ?>
                         </span>
                     </div>
                 </div>
@@ -710,10 +703,10 @@
                     <div class="absolute inset-0 bg-gradient-to-r from-orange-700 to-orange-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
                 </a>
                 
-                <a href="tel:+911234567890" class="group px-10 py-5 border-2 border-white text-white font-bold uppercase tracking-wider text-lg rounded-xl hover:bg-white hover:text-black transition-all duration-700 hover:shadow-2xl hover:-translate-y-2">
+                <a href="tel:<?php echo get_setting('contact_phone'); ?>" class="group px-10 py-5 border-2 border-white text-white font-bold uppercase tracking-wider text-lg rounded-xl hover:bg-white hover:text-black transition-all duration-700 hover:shadow-2xl hover:-translate-y-2">
                     <span class="flex items-center justify-center">
                         <i class="fas fa-phone mr-4 transform group-hover:rotate-12 transition-transform duration-300"></i>
-                        Call Now: +91 12345 67890
+                        Call Now: <?php echo get_setting('contact_phone'); ?>
                     </span>
                 </a>
             </div>
