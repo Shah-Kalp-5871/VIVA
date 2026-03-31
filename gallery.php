@@ -76,20 +76,36 @@ $categories = array_unique(array_column($imageItems, 'category'));
 
 <!-- Lightbox Modal -->
 <div id="lightbox-modal" class="fixed inset-0 bg-black/95 z-[100] hidden items-center justify-center p-4 backdrop-blur-xl">
-    <div class="relative max-w-5xl w-full">
-        <button id="close-lightbox" class="absolute -top-16 right-0 text-white text-3xl hover:text-orange-600 transition-colors">
+    <div id="lightbox-background" class="absolute inset-0 z-0 cursor-pointer"></div>
+    <div class="relative max-w-5xl w-full z-10" data-aos="zoom-in">
+        <button id="close-lightbox" class="absolute -top-12 right-0 text-white text-3xl hover:text-orange-600 transition-all duration-300 transform hover:rotate-90">
             <i class="fas fa-times"></i>
         </button>
         
         <div class="bg-gray-950 rounded-3xl overflow-hidden border border-gray-900 shadow-3xl">
-            <img id="lightbox-image" src="" alt="" class="w-full h-auto max-h-[75vh] object-contain">
-            <div class="p-8 text-center bg-black/50 backdrop-blur-md">
-                <h3 id="lightbox-title" class="text-2xl font-bold text-white mb-2"></h3>
-                <p id="lightbox-desc" class="text-gray-400"></p>
+            <div class="relative group">
+                <img id="lightbox-image" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain">
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent opacity-60"></div>
+            </div>
+            <div class="p-8 text-center bg-gray-950 border-t border-gray-900 relative">
+                <!-- Pagination Counter -->
+                <div id="lightbox-counter" class="absolute -top-6 left-1/2 -translate-x-1/2 px-4 py-1 bg-orange-600 text-white text-[10px] font-bold rounded-full border-2 border-gray-950 z-20">
+                    1 / 1
+                </div>
+
+                <h3 id="lightbox-title" class="text-3xl font-bold text-white mb-2 font-heading"></h3>
+                <p id="lightbox-desc" class="text-gray-400 max-w-2xl mx-auto leading-relaxed"></p>
             </div>
         </div>
+
+        <!-- Navigation Buttons -->
+        <button id="prev-lightbox" class="absolute top-1/2 -left-16 lg:-left-24 -translate-y-1/2 w-12 h-12 lg:w-16 lg:h-16 bg-white/5 hover:bg-orange-600 border border-white/10 text-white rounded-full flex items-center justify-center transition-all duration-300 group">
+            <i class="fas fa-chevron-left group-hover:-translate-x-1 transition-transform"></i>
+        </button>
+        <button id="next-lightbox" class="absolute top-1/2 -right-16 lg:-right-24 -translate-y-1/2 w-12 h-12 lg:w-16 lg:h-16 bg-white/5 hover:bg-orange-600 border border-white/10 text-white rounded-full flex items-center justify-center transition-all duration-300 group">
+            <i class="fas fa-chevron-right group-hover:translate-x-1 transition-transform"></i>
+        </button>
     </div>
-    <div id="lightbox-background" class="absolute inset-0 -z-10"></div>
 </div>
 
 <?php include 'includes/footer.php'; ?>
