@@ -2,9 +2,9 @@
 include 'includes/header.php'; 
 
 // Fetch Settings
-$hero_bg = 'https://www.ssab.com/-/media/images/technical-support/how-to-weld/how-to-weld-menu-2-1920x570px-240815v1.gif?m=20240815105849';
-$about_img = str_replace('/VIVA/', '', get_setting('about_image_path', 'assets/images/about-viva.jpg'));
-$services_bg = str_replace('/VIVA/', '', get_setting('services_bg_path', 'assets/images/services-bg.jpg'));
+$hero_bg = resolve_url(get_setting('hero_bg_path', 'assets/images/hero-bg.jpg'));
+$about_img = resolve_url(get_setting('about_image_path', 'assets/images/about-viva.jpg'));
+$services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/services-bg.jpg'));
 ?>
 
 <!-- Hero Section - Properly fitted to screen -->
@@ -359,7 +359,7 @@ $services_bg = str_replace('/VIVA/', '', get_setting('services_bg_path', 'assets
             foreach ($feat_cats as $fc):
             ?>
             <a href="products.php?category=<?php echo h($fc['slug']); ?>" class="group relative h-80 rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-600/50 transition-all duration-700 opacity-0 transform translate-y-10 animate-on-scroll">
-                <img src="<?php echo h(str_replace('/VIVA/', '', $fc['image'])); ?>" alt="<?php echo h($fc['name']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                <img src="<?php echo resolve_url($fc['image']); ?>" alt="<?php echo h($fc['name']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-8 w-full transform group-hover:-translate-y-2 transition-transform duration-500">
                     <h3 class="text-xl font-bold text-white mb-2 group-hover:text-orange-500 transition-colors"><?php echo h($fc['name']); ?></h3>

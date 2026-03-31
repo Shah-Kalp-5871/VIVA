@@ -27,6 +27,7 @@ $current_admin_page = basename($_SERVER['PHP_SELF']);
     
     <script>
         window.VIVA_ADMIN_URL = '<?php echo ADMIN_URL; ?>';
+        window.VIVA_BASE_URL = '<?php echo BASE_URL; ?>';
     </script>
     
     <!-- Tailwind Config -->

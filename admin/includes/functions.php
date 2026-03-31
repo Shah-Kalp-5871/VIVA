@@ -168,4 +168,43 @@ function slugExists($table, $slug, $exclude_id = null) {
     }
     return $stmt->fetch() ? true : false;
 }
+
+/**
+ * Resolve a path to a full URL, handling local /VIVA/ and live / correctly.
+ */
+function resolve_url($path) {
+    if (empty($path)) return '';
+    
+    // If it's already a full URL (http:// or https://), return as is
+    if (preg_match('~^https?://~', $path)) {
+        return $path;
+    }
+
+    // Clean leading slash
+    $clean_path = ltrim($path, '/');
+    
+    // If path starts with VIVA/ (case insensitive), we might want to clean it for live
+    // but on local, BASE_URL already includes /VIVA.
+    // The most robust way is to detect if the path ALREADY contains the subfolder name
+    // and if we are on local.
+    
+    // Check if we are on local (host is localhost)
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    $is_local = ($host === 'localhost');
+
+    if ($is_local) {
+        // On local, we expect paths to be relative to the VIVA folder or absolute from root
+        // If it starts with VIVA/, it's technically absolute from localhost root.
+        if (stripos($clean_path, 'VIVA/') === 0) {
+            return '/' . $clean_path; // Already has /VIVA/
+        }
+        return '/VIVA/' . $clean_path;
+    } else {
+        // On live, we want to strip VIVA/ if it exists at the start
+        if (stripos($clean_path, 'VIVA/') === 0) {
+            $clean_path = substr($clean_path, 5);
+        }
+        return '/' . ltrim($clean_path, '/');
+    }
+}
 ?>

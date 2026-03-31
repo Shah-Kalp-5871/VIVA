@@ -160,11 +160,6 @@ $new_count = $new_count_stmt->fetchColumn();
                                 </td>
                                 <td class="px-8 py-6 text-right">
                                     <div class="flex items-center justify-end space-x-2 opacity-100 transition-all">
-                                        <!-- Quick Reply -->
-                                        <a href="mailto:<?php echo $msg['email']; ?>?subject=RE: <?php echo urlencode($msg['subject']); ?>" class="w-9 h-9 bg-green-600/10 flex items-center justify-center text-green-500 rounded-xl hover:bg-green-600 hover:text-white transition-all transform hover:scale-110" title="Reply">
-                                            <i class="fas fa-paper-plane text-[10px]"></i>
-                                        </a>
-
                                         <!-- Status Toggle -->
                                         <?php if ($msg['status'] == 'new'): ?>
                                             <a href="?action=mark_read&id=<?php echo $msg['id']; ?>" class="w-9 h-9 bg-blue-600/10 flex items-center justify-center text-blue-400 rounded-xl hover:bg-blue-600 hover:text-white transition-all transform hover:scale-110" title="Mark as Read">
@@ -266,9 +261,6 @@ $new_count = $new_count_stmt->fetchColumn();
         <!-- Modal Footer (Fixed) -->
         <div class="p-6 md:p-8 bg-black/40 border-t border-gray-800/50 flex flex-col md:flex-row justify-end gap-4 flex-shrink-0">
             <button onclick="closeMessageModal()" class="px-8 py-4 rounded-xl text-gray-500 font-bold hover:text-white hover:bg-gray-800 transition-all uppercase tracking-widest text-[10px] md:text-[11px]">Dismiss</button>
-            <a id="modal-reply" href="" class="px-8 md:px-10 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-black uppercase tracking-widest text-[10px] md:text-[11px] shadow-xl shadow-orange-600/20 transition-all transform hover:-translate-y-1 flex items-center justify-center">
-                <i class="fas fa-paper-plane mr-3 text-sm"></i> Initiate Reply
-            </a>
         </div>
     </div>
 </div>

@@ -89,7 +89,7 @@ function route($name, $params = []) {
 
     // Site-level routes don't use ADMIN_URL prefix
     if (strpos($name, 'site.') === 0) {
-        return '/VIVA' . $path;
+        return BASE_URL . $path;
     }
 
     return ADMIN_URL . $path;

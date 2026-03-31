@@ -10,6 +10,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="<?php echo get_setting('meta_keywords'); ?>">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?php echo resolve_url(get_setting('favicon_path')); ?>">
 
     
     <!-- SEO Meta Tags -->
@@ -99,9 +102,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="css/custom.css">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?php echo get_setting('favicon_path'); ?>">
-    <link rel="shortcut icon" type="image/png" href="<?php echo get_setting('favicon_path'); ?>">
-    <link rel="apple-touch-icon" type="image/png" href="<?php echo get_setting('favicon_path'); ?>">
+    <link rel="icon" type="image/png" href="<?php echo resolve_url(get_setting('favicon_path')); ?>">
+    <link rel="shortcut icon" type="image/png" href="<?php echo resolve_url(get_setting('favicon_path')); ?>">
+    <link rel="apple-touch-icon" type="image/png" href="<?php echo resolve_url(get_setting('favicon_path')); ?>">
 </head>
 <body class="bg-black text-white font-body">
 
@@ -121,7 +124,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <div class="w-12 h-12 bg-gradient-to-br from-black-600 to-black-700 rounded-lg flex items-center justify-center  transition-transform duration-700">
                             <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
                                 <!-- Using settings logo -->
-                                <img src="<?php echo get_setting('logo_path'); ?>" alt="<?php echo get_setting('site_name'); ?> Logo" class="w-8 h-8 object-contain">
+                                <img src="<?php echo resolve_url(get_setting('logo_path')); ?>" alt="<?php echo get_setting('site_name'); ?> Logo" class="w-8 h-8 object-contain">
                             </div>
                         </div>
                     </div>
@@ -239,7 +242,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <!-- Menu Header: Logo -->
                 <div class="p-8 border-b border-gray-900">
                     <a href="index.php" class="flex items-center space-x-3">
-                        <img src="<?php echo get_setting('logo_path'); ?>" alt="VIVA Logo" class="w-10 h-10 bg-white rounded p-1">
+                        <img src="<?php echo resolve_url(get_setting('logo_path')); ?>" alt="VIVA Logo" class="w-10 h-10 bg-white rounded p-1">
                         <div>
                             <h2 class="text-sm font-heading font-bold text-white leading-none">VIVA<span class="text-orange-600"> ENGINEERING</span></h2>
                             <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Management</p>

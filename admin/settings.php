@@ -262,7 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                     <div class="relative mb-6">
                         <input type="hidden" name="logo_path" id="logo_path_input" value="<?php echo get_setting('logo_path'); ?>">
                         <div class="w-24 h-24 bg-white rounded-xl flex items-center justify-center shadow-2xl overflow-hidden cursor-pointer" onclick="openSettingsMediaPicker('logo')">
-                            <img src="<?php echo get_setting('logo_path'); ?>" id="logo_preview" alt="Current Logo" class="w-20 h-20 object-contain">
+                            <img src="<?php echo resolve_url(get_setting('logo_path')); ?>" id="logo_preview" alt="Current Logo" class="w-20 h-20 object-contain">
                         </div>
                         <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center shadow-lg">
                             <i class="fas fa-camera text-white text-xs"></i>
@@ -287,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                         <div class="flex items-center space-x-4">
                             <input type="hidden" name="favicon_path" id="favicon_path_input" value="<?php echo get_setting('favicon_path'); ?>">
                             <div class="w-10 h-10 bg-white rounded-md overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSettingsMediaPicker('favicon')">
-                                <img src="<?php echo get_setting('favicon_path'); ?>" id="favicon_preview" alt="Favicon" class="w-8 h-8 object-contain">
+                                <img src="<?php echo resolve_url(get_setting('favicon_path')); ?>" id="favicon_preview" alt="Favicon" class="w-8 h-8 object-contain">
                             </div>
                             <button type="button" onclick="openSettingsMediaPicker('favicon')" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all">
                                 Change Favicon
@@ -308,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                         <div class="flex items-center space-x-4">
                             <input type="hidden" name="hero_bg_path" id="hero_bg_path_input" value="<?php echo get_setting('hero_bg_path'); ?>">
                             <div class="w-24 h-12 bg-white/10 border border-gray-800 rounded-md overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSettingsMediaPicker('hero')">
-                                <img src="<?php echo get_setting('hero_bg_path') ?: '/VIVA/v.jpeg'; ?>" id="hero_preview" alt="Hero Background" class="w-full h-full object-cover">
+                                <img src="<?php echo resolve_url(get_setting('hero_bg_path') ?: '/VIVA/v.jpeg'); ?>" id="hero_preview" alt="Hero Background" class="w-full h-full object-cover">
                             </div>
                             <button type="button" onclick="openSettingsMediaPicker('hero')" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all">
                                 Change Hero
@@ -329,7 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                         <div class="flex items-center space-x-4">
                             <input type="hidden" name="about_image_path" id="about_image_path_input" value="<?php echo get_setting('about_image_path'); ?>">
                             <div class="w-24 h-12 bg-white/10 border border-gray-800 rounded-md overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSettingsMediaPicker('about')">
-                                <img src="<?php echo get_setting('about_image_path') ?: '/VIVA/v.jpeg'; ?>" id="about_preview" alt="About Image" class="w-full h-full object-cover">
+                                <img src="<?php echo resolve_url(get_setting('about_image_path') ?: '/VIVA/v.jpeg'); ?>" id="about_preview" alt="About Image" class="w-full h-full object-cover">
                             </div>
                             <button type="button" onclick="openSettingsMediaPicker('about')" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all">
                                 Select Image
@@ -350,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                         <div class="flex items-center space-x-4">
                             <input type="hidden" name="services_bg_path" id="services_bg_path_input" value="<?php echo get_setting('services_bg_path'); ?>">
                             <div class="w-24 h-12 bg-white/10 border border-gray-800 rounded-md overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSettingsMediaPicker('services')">
-                                <img src="<?php echo get_setting('services_bg_path') ?: '/VIVA/v.jpeg'; ?>" id="services_preview" alt="Services Background" class="w-full h-full object-cover">
+                                <img src="<?php echo resolve_url(get_setting('services_bg_path') ?: '/VIVA/v.jpeg'); ?>" id="services_preview" alt="Services Background" class="w-full h-full object-cover">
                             </div>
                             <button type="button" onclick="openSettingsMediaPicker('services')" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all">
                                 Select Background
@@ -366,28 +366,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                         }
                         
                         window.openMediaManager({ multiple: false }, function(items) {
-                            // The callback returns an array of selected items
                             if (!items || items.length === 0) return;
                             
                             const item = items[0];
-                            // The modal returns { id, path, alt }
-                            const finalPath = '/VIVA/' + item.path.replace(/^\/+/, '');
+                            // item.path is absolute from root (e.g. uploads/...)
+                            const finalPath = '/' + item.path.replace(/^\/+/, '');
+                            
+                            // Dynamic preview using base URL
+                            const previewUrl = window.VIVA_BASE_URL + finalPath;
 
                             if (type === 'logo') {
                                 document.getElementById('logo_path_input').value = finalPath;
-                                document.getElementById('logo_preview').src = finalPath;
+                                document.getElementById('logo_preview').src = previewUrl;
                             } else if (type === 'favicon') {
                                 document.getElementById('favicon_path_input').value = finalPath;
-                                document.getElementById('favicon_preview').src = finalPath;
+                                document.getElementById('favicon_preview').src = previewUrl;
                             } else if (type === 'hero') {
                                 document.getElementById('hero_bg_path_input').value = finalPath;
-                                document.getElementById('hero_preview').src = finalPath;
+                                document.getElementById('hero_preview').src = previewUrl;
                             } else if (type === 'about') {
                                 document.getElementById('about_image_path_input').value = finalPath;
-                                document.getElementById('about_preview').src = finalPath;
+                                document.getElementById('about_preview').src = previewUrl;
                             } else if (type === 'services') {
                                 document.getElementById('services_bg_path_input').value = finalPath;
-                                document.getElementById('services_preview').src = finalPath;
+                                document.getElementById('services_preview').src = previewUrl;
                             }
                         });
                     }
