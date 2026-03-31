@@ -97,9 +97,12 @@ $current_admin_page = basename($_SERVER['PHP_SELF']);
     </style>
 </head>
 <body class="bg-black text-white font-body selection:bg-orange-600/30 selection:text-orange-600">
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen overflow-hidden relative">
+        <!-- Sidebar Backdrop (Mobile Only) -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[45] hidden lg:hidden transition-opacity duration-300 opacity-0"></div>
+
         <!-- Sidebar -->
-        <aside class="admin-sidebar w-64 flex-shrink-0 flex flex-col h-full z-50">
+        <aside id="admin-sidebar" class="admin-sidebar fixed inset-y-0 left-0 w-64 lg:relative lg:translate-x-0 transform -translate-x-full flex flex-col h-full z-50 shadow-2xl transition-transform duration-300 ease-in-out">
             <!-- Sidebar Header -->
             <div class="p-6 border-b border-gray-800">
                 <a href="<?php echo route('dashboard'); ?>" class="flex items-center space-x-3">
@@ -185,25 +188,29 @@ $current_admin_page = basename($_SERVER['PHP_SELF']);
         </aside>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
             <!-- Top Header -->
-            <header class="bg-black border-b border-gray-800 h-16 flex items-center justify-between px-8 z-40">
-                <div class="flex items-center">
-                    <h2 class="text-lg font-heading font-semibold"><?php echo $page_title ?? 'Dashboard'; ?></h2>
+            <header class="bg-black border-b border-gray-800 h-16 flex items-center justify-between px-4 sm:px-8 z-40">
+                <div class="flex items-center space-x-4">
+                    <!-- Mobile Sidebar Toggle -->
+                    <button id="sidebar-toggle" class="lg:hidden w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="text-sm sm:text-lg font-heading font-semibold truncate"><?php echo $page_title ?? 'Dashboard'; ?></h2>
                 </div>
                 
-                <div class="flex items-center space-x-4">
-                    <button class="text-gray-400 hover:text-white transition-colors relative">
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <button class="text-gray-400 hover:text-white transition-colors relative hidden sm:block">
                         <i class="fas fa-bell"></i>
                         <span class="absolute -top-1 -right-1 w-2 h-2 bg-orange-600 rounded-full"></span>
                     </button>
-                    <div class="h-6 w-[1px] bg-gray-800"></div>
-                    <div class="flex items-center space-x-3">
-                        <div class="text-right hidden sm:block">
-                            <p class="text-xs font-semibold">Admin User</p>
-                            <p class="text-[10px] text-gray-500 text-right">Superuser</p>
+                    <div class="h-6 w-[1px] bg-gray-800 hidden sm:block"></div>
+                    <div class="flex items-center space-x-2 sm:space-x-3">
+                        <div class="text-right hidden md:block">
+                            <p class="text-[10px] sm:text-xs font-semibold">Admin User</p>
+                            <p class="text-[8px] sm:text-[10px] text-gray-500 text-right uppercase">Superuser</p>
                         </div>
-                        <div class="w-8 h-8 rounded-full bg-orange-600 flex items-center justify-center font-bold text-sm">
+                        <div class="w-8 h-8 rounded-full bg-orange-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-lg shadow-orange-600/30">
                             A
                         </div>
                     </div>
@@ -211,5 +218,5 @@ $current_admin_page = basename($_SERVER['PHP_SELF']);
             </header>
 
             <!-- Scrollable Page Content -->
-            <main class="flex-1 overflow-y-auto admin-content p-8">
+            <main class="flex-1 overflow-y-auto admin-content p-4 sm:p-8">
                 <!-- Content injected here -->

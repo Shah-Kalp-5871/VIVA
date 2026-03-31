@@ -226,37 +226,108 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <!-- Mobile Menu Button -->
                 <button id="mobile-menu-button" class="lg:hidden relative z-[200] w-12 h-12 flex flex-col justify-center items-center group focus:outline-none">
                     <span class="w-8 h-0.5 bg-white mb-2 transition-all duration-300 transform origin-center" id="bar1"></span>
-                    <span class="w-8 h-0.5 bg-white transition-all duration-300 transform origin-center" id="bar2"></span>
-                  
+                    <span class="w-8 h-0.5 bg-white mb-2 transition-all duration-300 transform origin-center" id="bar2"></span>
+                    <span class="w-8 h-0.5 bg-white transition-all duration-300 transform origin-center" id="bar3"></span>
                 </button>
             </div>
             
+            <!-- Mobile Menu Backdrop -->
+            <div id="mobile-menu-backdrop" class="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[140] hidden opacity-0 transition-opacity duration-500"></div>
+
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-screen bg-black transform -translate-x-full transition-transform duration-500 flex flex-col justify-center px-8 z-[150]">
-                <div class="space-y-6">
-                    <a href="index.php" class="mobile-nav-link <?php echo $current_page == 'index.php' ? 'active' : ''; ?> text-gray-300">
-                        <span class="text-xl font-medium">Home</span>
-                        <i class="fas fa-chevron-right text-gray-400 text-lg"></i>
-                    </a>
-                    <a href="products.php" class="mobile-nav-link <?php echo $current_page == 'products.php' ? 'active' : ''; ?> text-gray-300">
-                        <span class="text-xl font-medium">Products</span>
-                        <i class="fas fa-chevron-right text-gray-400 text-lg"></i>
-                    </a>
-                    <a href="about.php" class="mobile-nav-link <?php echo $current_page == 'about.php' ? 'active' : ''; ?> text-gray-300">
-                        <span class="text-xl font-medium">About</span>
-                        <i class="fas fa-chevron-right text-gray-400 text-lg"></i>
-                    </a>
-                    <a href="gallery.php" class="mobile-nav-link <?php echo $current_page == 'gallery.php' ? 'active' : ''; ?> text-gray-300">
-                        <span class="text-xl font-medium">Gallery</span>
-                        <i class="fas fa-chevron-right text-gray-400 text-lg"></i>
-                    </a>
-                    <a href="contact.php" class="mobile-nav-link <?php echo $current_page == 'contact.php' ? 'active' : ''; ?> text-gray-300">
-                        <span class="text-xl font-medium">Contact</span>
-                        <i class="fas fa-chevron-right text-gray-400 text-lg"></i>
+            <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-[85%] sm:w-[75%] h-screen bg-black border-r border-gray-800 transform -translate-x-full transition-transform duration-500 flex flex-col z-[150] shadow-2xl">
+                <!-- Menu Header: Logo -->
+                <div class="p-8 border-b border-gray-900">
+                    <a href="index.php" class="flex items-center space-x-3">
+                        <img src="<?php echo get_setting('logo_path'); ?>" alt="VIVA Logo" class="w-10 h-10 bg-white rounded p-1">
+                        <div>
+                            <h2 class="text-sm font-heading font-bold text-white leading-none">VIVA<span class="text-orange-600"> ENGINEERING</span></h2>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Management</p>
+                        </div>
                     </a>
                 </div>
-                
-                
+
+                <!-- Menu Body: Navigation -->
+                <div class="flex-1 overflow-y-auto py-8 px-6 space-y-2">
+                    <a href="index.php" class="mobile-nav-link group flex items-center justify-between p-4 rounded-xl transition-all <?php echo $current_page == 'index.php' ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/20' : 'text-gray-400 hover:bg-gray-900 hover:text-white'; ?>">
+                        <span class="text-lg font-semibold">Home</span>
+                        <div class="w-6 h-6 rounded-full <?php echo $current_page == 'index.php' ? 'bg-white/20' : 'bg-gray-800'; ?> flex items-center justify-center group-hover:bg-orange-600/20 transition-colors">
+                            <i class="fas fa-home text-[10px]"></i>
+                        </div>
+                    </a>
+
+                    <a href="products.php" class="mobile-nav-link group flex items-center justify-between p-4 rounded-xl transition-all <?php echo $current_page == 'products.php' ? 'active bg-orange-600 text-white shadow-lg shadow-orange-600/20' : 'text-gray-400 hover:bg-gray-900 hover:text-white'; ?>">
+                        <span class="text-lg font-semibold">Products</span>
+                        <div class="w-6 h-6 rounded-full <?php echo $current_page == 'products.php' ? 'bg-white/20' : 'bg-gray-800'; ?> flex items-center justify-center group-hover:bg-orange-600/20 transition-colors">
+                            <i class="fas fa-boxes text-[10px]"></i>
+                        </div>
+                    </a>
+
+                    <a href="about.php" class="mobile-nav-link group flex items-center justify-between p-4 rounded-xl transition-all <?php echo $current_page == 'about.php' ? 'active bg-orange-600 text-white shadow-lg shadow-orange-600/20' : 'text-gray-400 hover:bg-gray-900 hover:text-white'; ?>">
+                        <span class="text-lg font-semibold">About</span>
+                        <div class="w-6 h-6 rounded-full <?php echo $current_page == 'about.php' ? 'bg-white/20' : 'bg-gray-800'; ?> flex items-center justify-center group-hover:bg-orange-600/20 transition-colors">
+                            <i class="fas fa-info-circle text-[10px]"></i>
+                        </div>
+                    </a>
+
+                    <a href="gallery.php" class="mobile-nav-link group flex items-center justify-between p-4 rounded-xl transition-all <?php echo $current_page == 'gallery.php' ? 'active bg-orange-600 text-white shadow-lg shadow-orange-600/20' : 'text-gray-400 hover:bg-gray-900 hover:text-white'; ?>">
+                        <span class="text-lg font-semibold">Gallery</span>
+                        <div class="w-6 h-6 rounded-full <?php echo $current_page == 'gallery.php' ? 'bg-white/20' : 'bg-gray-800'; ?> flex items-center justify-center group-hover:bg-orange-600/20 transition-colors">
+                            <i class="fas fa-images text-[10px]"></i>
+                        </div>
+                    </a>
+
+                    <a href="contact.php" class="mobile-nav-link group flex items-center justify-between p-4 rounded-xl transition-all <?php echo $current_page == 'contact.php' ? 'active bg-orange-600 text-white shadow-lg shadow-orange-600/20' : 'text-gray-400 hover:bg-gray-900 hover:text-white'; ?>">
+                        <span class="text-lg font-semibold">Contact</span>
+                        <div class="w-6 h-6 rounded-full <?php echo $current_page == 'contact.php' ? 'bg-white/20' : 'bg-gray-800'; ?> flex items-center justify-center group-hover:bg-orange-600/20 transition-colors">
+                            <i class="fas fa-paper-plane text-[10px]"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Menu Footer: Contact -->
+                <div class="p-8 bg-gray-950/50 border-t border-gray-900">
+                    <div id="mobile-menu-footer" class="space-y-4 opacity-0 transform translate-y-10">
+                        <div class="flex items-center space-x-3 group">
+                            <div class="w-8 h-8 rounded-lg bg-orange-600/10 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
+                                <i class="fas fa-phone-alt text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Call Us</p>
+                                <a href="tel:<?php echo get_setting('contact_phone'); ?>" class="text-xs text-white hover:text-orange-600 transition-colors"><?php echo get_setting('contact_phone'); ?></a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 group">
+                            <div class="w-8 h-8 rounded-lg bg-orange-600/10 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
+                                <i class="fas fa-envelope text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Email</p>
+                                <a href="mailto:<?php echo get_setting('contact_email'); ?>" class="text-xs text-white hover:text-orange-600 transition-colors"><?php echo get_setting('contact_email'); ?></a>
+                            </div>
+                        </div>
+
+                        <!-- Social Icons -->
+                        <div class="flex items-center space-x-4 pt-4 border-t border-gray-900/50">
+                            <?php if (get_setting('facebook_url')): ?>
+                            <a href="<?php echo get_setting('facebook_url'); ?>" class="w-8 h-8 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                <i class="fab fa-facebook-f text-xs"></i>
+                            </a>
+                            <?php endif; ?>
+                            <?php if (get_setting('linkedin_url')): ?>
+                            <a href="<?php echo get_setting('linkedin_url'); ?>" class="w-8 h-8 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                <i class="fab fa-linkedin-in text-xs"></i>
+                            </a>
+                            <?php endif; ?>
+                            <?php if (get_setting('instagram_url')): ?>
+                            <a href="<?php echo get_setting('instagram_url'); ?>" class="w-8 h-8 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all">
+                                <i class="fab fa-instagram text-xs"></i>
+                            </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
