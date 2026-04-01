@@ -214,10 +214,10 @@ $about_img = resolve_url(get_setting('about_image_path', 'assets/images/products
                             src="<?php echo $map_src; ?>" 
                             width="100%" 
                             height="100%" 
-                            style="border:0; filter: grayscale(1) invert(1) contrast(1.2) opacity(0.8); transition: all 0.5s ease;" 
+                            style="border:0; transition: all 0.5s ease;" 
                             allowfullscreen="" 
                             loading="lazy" 
-                            class="group-hover:opacity-100 group-hover:filter-none"
+                            class="w-full h-full"
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>

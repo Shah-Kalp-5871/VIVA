@@ -30,7 +30,7 @@ $site_settings = [
     'cta_secondary_url' => '/assets/brochure.pdf',
     'contact_cta_text' => 'Talk to an engineer',
     'contact_cta_url' => '/contact.php#form',
-    'map_embed' => 'https://maps.google.com/maps?q=XPHF%2BG36+K.P+Ind.+Estate,+Plot+no.+21,+Bakrol+Bujrang,+Ahmedabad,+Gujarat+382430&amp;output=embed',
+    'map_embed' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117562.77447475148!2d72.71561005!3d22.95627065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8717804917bd%3A0xc486dc50a905a5a1!2sVIVA%20ENGINEERING!5e0!3m2!1sen!2sin!4v1711955000000!5m2!1sen!2sin',
     'brochure_url' => '/assets/brochure.pdf',
     'hero_bg_path' => 'https://www.ssab.com/-/media/images/technical-support/how-to-weld/how-to-weld-menu-2-1920x570px-240815v1.gif?m=20240815105849',
     'about_image_path' => '/VIVA/uploads/media/media-viva-69cb734cac3a8.webp',
