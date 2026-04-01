@@ -3,9 +3,6 @@ require_once __DIR__ . '/../admin/includes/config.php';
 require_once __DIR__ . '/../data/site-settings.php';
 require_once __DIR__ . '/../data/products-data.php';
 $current_page = basename($_SERVER['PHP_SELF']);
-
-// Visitor Tracking
-require_once __DIR__ . '/track-visitors.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

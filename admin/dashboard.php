@@ -24,18 +24,6 @@ $pending_inquiries = $pending_inquiries_stmt->fetchColumn();
 
 $recent_messages_stmt = $pdo->query("SELECT * FROM contact_requests ORDER BY created_at DESC LIMIT 5");
 $recent_messages = $recent_messages_stmt->fetchAll();
-
-// Visitor Statistics
-$total_visitors_stmt = $pdo->query("SELECT COUNT(*) FROM visitors");
-$total_unique_visitors = $total_visitors_stmt->fetchColumn();
-
-$today_visitors_stmt = $pdo->prepare("SELECT COUNT(*) FROM visitors WHERE visit_date = :today");
-$today_visitors_stmt->execute(['today' => date('Y-m-d')]);
-$today_visitors = $today_visitors_stmt->fetchColumn();
-
-$month_visitors_stmt = $pdo->prepare("SELECT COUNT(*) FROM visitors WHERE MONTH(visit_date) = MONTH(CURRENT_DATE()) AND YEAR(visit_date) = YEAR(CURRENT_DATE())");
-$month_visitors_stmt->execute();
-$month_visitors = $month_visitors_stmt->fetchColumn();
 ?>
 
 <div class="space-y-8">
@@ -107,46 +95,6 @@ $month_visitors = $month_visitors_stmt->fetchColumn();
             </div>
             <div class="w-12 h-12 bg-orange-600/10 rounded-xl flex items-center justify-center text-orange-600">
                 <i class="fas fa-inbox text-xl"></i>
-            </div>
-        </div>
-
-        <!-- NEW VISITOR STATS -->
-        <div class="card p-6 flex items-start justify-between bg-gradient-to-br from-gray-900 to-black border-orange-600/20">
-            <div>
-                <p class="text-gray-500 text-xs font-bold uppercase tracking-wider">Unique Visitors (Today)</p>
-                <div class="flex items-center gap-2 mt-2">
-                    <h3 class="text-3xl font-bold text-white"><?php echo $today_visitors; ?></h3>
-                    <span class="flex h-2 w-2 relative">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                    </span>
-                </div>
-                <p class="text-orange-500 text-xs mt-2 font-semibold">Live Traffic</p>
-            </div>
-            <div class="w-12 h-12 bg-orange-600/20 rounded-xl flex items-center justify-center text-orange-500 border border-orange-600/30">
-                <i class="fas fa-users text-xl"></i>
-            </div>
-        </div>
-
-        <div class="card p-6 flex items-start justify-between">
-            <div>
-                <p class="text-gray-500 text-xs font-bold uppercase tracking-wider">Monthly Traffic</p>
-                <h3 class="text-3xl font-bold mt-2 text-white"><?php echo $month_visitors; ?></h3>
-                <p class="text-gray-400 text-xs mt-2">Current Month</p>
-            </div>
-            <div class="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center text-gray-400">
-                <i class="fas fa-chart-line text-xl"></i>
-            </div>
-        </div>
-
-        <div class="card p-6 flex items-start justify-between">
-            <div>
-                <p class="text-gray-500 text-xs font-bold uppercase tracking-wider">Total Visitors</p>
-                <h3 class="text-3xl font-bold mt-2 text-white"><?php echo $total_unique_visitors; ?></h3>
-                <p class="text-gray-400 text-xs mt-2">All-Time Unique</p>
-            </div>
-            <div class="w-12 h-12 bg-gray-800 rounded-xl flex items-center justify-center text-gray-400">
-                <i class="fas fa-globe text-xl"></i>
             </div>
         </div>
     </div>
