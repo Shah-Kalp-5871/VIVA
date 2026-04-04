@@ -28,7 +28,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                     </div>
                     
                     <!-- Main Heading - Compact, screen-fitted -->
-                    <h1 class="hero-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 leading-[1.15] transform translate-y-1">
+                    <h1 class="hero-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 leading-[1.15] transform translate-y-1">
                         <?php 
                         $headline = get_setting('hero_headline');
                         $words = explode(' ', $headline);
@@ -41,7 +41,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                     </h1>
                     
                     <!-- Description -->
-                    <p class="hero-description text-base sm:text-lg md:text-xl text-gray-400 mb-6 md:mb-8 max-w-xl leading-relaxed opacity-0 transform translate-y-10">
+                    <p class="hero-description text-sm sm:text-base md:text-lg text-gray-400 mb-6 md:mb-8 max-w-xl leading-relaxed opacity-0 transform translate-y-10">
                         <?php echo get_setting('hero_subheadline'); ?>
                     </p>
                     
@@ -72,7 +72,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                         <div class="stat-item flex items-center justify-between border-b border-gray-800/50 pb-6">
                             <div class="flex flex-col">
                                 <div class="flex items-baseline gap-1">
-                                    <div class="stat-number text-4xl font-black text-orange-600" data-value="50">0</div>
+                                    <div class="stat-number text-3xl font-black text-orange-600" data-value="50">0</div>
                                     <span class="text-orange-600 text-2xl font-bold">+</span>
                                 </div>
                                 <div class="flex items-center gap-1.5 mt-1">
@@ -88,7 +88,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                         <div class="stat-item flex items-center justify-between border-b border-gray-800/50 pb-6">
                             <div class="flex flex-col">
                                 <div class="flex items-baseline gap-1">
-                                    <div class="stat-number text-4xl font-black text-white" data-value="16">0</div>
+                                    <div class="stat-number text-3xl font-black text-white" data-value="16">0</div>
                                     <span class="text-white text-2xl font-bold">+</span>
                                 </div>
                                 <div class="flex items-center gap-1.5 mt-1">
@@ -104,7 +104,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                         <div class="stat-item flex items-center justify-between border-b border-gray-800/50 pb-6">
                             <div class="flex flex-col">
                                 <div class="flex items-baseline gap-1">
-                                    <div class="stat-number text-4xl font-black text-orange-600" data-value="100">0</div>
+                                    <div class="stat-number text-3xl font-black text-orange-600" data-value="100">0</div>
                                     <span class="text-orange-600 text-2xl font-bold">%</span>
                                 </div>
                                 <div class="flex items-center gap-1.5 mt-1">
@@ -121,7 +121,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                             <div class="flex flex-col">
                                 <div class="flex items-baseline gap-1">
                                     <div class="flex items-baseline">
-                                        <div class="stat-number text-4xl font-black text-white" data-value="24">0</div>
+                                        <div class="stat-number text-3xl font-black text-white" data-value="24">0</div>
                                         <span class="text-white text-2xl font-bold mx-0.5">/</span>
                                         <div class="stat-number text-4xl font-black text-white" data-value="7">0</div>
                                     </div>
@@ -141,6 +141,71 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
     </div>
 </section>
 
+<!-- Categories Grid Section -->
+<section class="py-20 bg-black relative overflow-hidden">
+    <div class="container mx-auto px-4 lg:px-8">
+        <div class="mb-12 text-center cat-grid-header opacity-0 transform translate-y-10">
+            <span class="text-orange-600 text-sm font-black uppercase tracking-[0.3em] mb-4 block">Our Specialties</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                SHOP BY <span class="text-orange-600">CATEGORY</span>
+            </h2>
+            <div class="w-24 h-1 bg-orange-600 mx-auto"></div>
+        </div>
+
+        <?php
+        $all_cats = $pdo->query("SELECT * FROM categories WHERE parent_id IS NULL AND status = 'active' ORDER BY id ASC")->fetchAll();
+        $total_cats = count($all_cats);
+        ?>
+        
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+            <?php foreach ($all_cats as $index => $cat): 
+                $is_last = ($index === $total_cats - 1);
+                $is_odd = ($total_cats % 2 !== 0);
+                $grid_class = ($is_last && $is_odd) ? "md:col-span-2 flex justify-center" : "";
+            ?>
+            <div class="<?php echo $grid_class; ?> cat-grid-item opacity-0 transform translate-y-10" data-delay="<?php echo ($index % 2) * 150; ?>">
+                <a href="products.php?category=<?php echo h($cat['slug']); ?>" 
+                   class="group relative block w-full <?php echo ($is_last && $is_odd) ? 'md:max-w-md' : ''; ?> max-w-sm mx-auto h-64 md:h-72 rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-600/50 transition-all duration-700 shadow-xl">
+                    
+                    <!-- Background Image with Zoom Effect -->
+                    <img src="<?php echo resolve_url($cat['image'] ?: 'assets/images/category-placeholder.jpg'); ?>" 
+                         alt="<?php echo h($cat['name']); ?>" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
+                    
+                    <!-- Gradient Overlays -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80"></div>
+                    <div class="absolute inset-0 bg-gradient-to-tr from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    
+                    <!-- Content -->
+                    <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                        <div class="transform group-hover:-translate-y-4 transition-transform duration-500">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-orange-500 transition-colors uppercase tracking-tight">
+                                <?php echo h($cat['name']); ?>
+                            </h3>
+                            
+                            <div class="flex items-center text-orange-600 font-bold uppercase tracking-widest text-sm group-hover:text-white transition-colors">
+                                <span>Explore Products</span>
+                                <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-3 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Bottom line -->
+                        <div class="absolute bottom-10 left-8 md:left-12 right-8 md:right-12 h-0.5 bg-gray-800 overflow-hidden rounded-full">
+                            <div class="h-full bg-orange-600 w-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                        </div>
+                    </div>
+
+                    <!-- Decorative elements -->
+                    <div class="absolute top-8 right-8 w-12 h-12 border-t-2 border-r-2 border-white/10 group-hover:border-orange-600/50 transition-colors duration-500 rounded-tr-2xl"></div>
+                    <div class="absolute bottom-8 left-8 w-12 h-12 border-b-2 border-l-2 border-white/10 group-hover:border-orange-600/50 transition-colors duration-500 rounded-bl-2xl"></div>
+                </a>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+
 <!-- About Section with Orange Card -->
 <section class="py-12 bg-black relative overflow-hidden">
     <div class="container mx-auto px-4 lg:px-8">
@@ -159,7 +224,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                 
                 <!-- Orange Stats Card -->
                 <div class="about-card absolute -bottom-8 -right-8 bg-gradient-to-br from-orange-600 to-orange-700 p-8 shadow-2xl max-w-xs transform hover:scale-105 transition-all duration-300 cursor-pointer">
-                    <div class="text-5xl font-bold text-white mb-2 counter-number" data-target="16">0</div>
+                    <div class="text-4xl font-bold text-white mb-2 counter-number" data-target="16">0</div>
                     <p class="text-white uppercase tracking-wider font-bold">Year of Experiences</p>
                     <p class="text-white/90 mt-4 text-sm">Powering sustainable industrial growth worldwide globally.</p>
                     
@@ -175,7 +240,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
                     <span class="text-orange-600 text-sm font-bold uppercase tracking-widest border-l-4 border-orange-600 pl-4 hover:pl-6 transition-all duration-300">About Company</span>
                 </div>
                 
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
                     PROFESSIONAL 
                     <span class="text-orange-600 inline-block hover:scale-110 transition-transform duration-300">MACHINERY</span>
                     <span class="block text-gray-400">SOLUTIONS INDUSTRIES</span>
@@ -212,249 +277,6 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
     </div>
 </section>
 
-<!-- Trusted By Section -->
-<section class="py-10 bg-black border-t border-gray-800">
-    <div class="container mx-auto px-4 lg:px-8">
-        <div class="trusted-title text-center mb-12 opacity-0 transform translate-y-10">
-            <p class="text-gray-400 text-lg">
-                Trusted By <span class="text-orange-600 font-bold counter-number" data-target="25">0</span>+ Big Companies
-            </p>
-        </div>
-        
-        <!-- Logo Slider with Animation -->
-        <div class="logo-slider flex flex-wrap justify-center items-center gap-12">
-            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">SIEMENS</div>
-            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">MITSUBISHI</div>
-            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">DELTA</div>
-            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">OMRON</div>
-            <div class="logo-item text-white text-2xl font-black tracking-tighter opacity-30 hover:opacity-100 hover:text-orange-500 hover:scale-110 transition-all duration-300 cursor-pointer">SCHNEIDER</div>
-        </div>
-    </div>
-</section>
-
-<!-- Services Section -->
-<section class="py-20 bg-black relative overflow-hidden">
-    <!-- Static Background with Overlay -->
-    <div class="absolute inset-0 z-0 opacity-10">
-        <img src="<?php echo h($services_bg); ?>" alt="Services Background" class="w-full h-full object-cover">
-    </div>
-    <div class="container mx-auto px-4 lg:px-8">
-        <div class="services-header text-center mb-16 opacity-0 transform translate-y-10">
-            <div class="inline-block mb-6">
-                <span class="text-orange-600 text-sm font-bold uppercase tracking-widest border-l-4 border-orange-600 pl-4 hover:pl-6 transition-all duration-300">Our Services</span>
-            </div>
-            
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                PROFESSIONAL MACHINERY
-                <span class="block text-gray-400">SOLUTIONS INDUSTRIES</span>
-            </h2>
-            
-            <p class="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
-                We provide comprehensive slitting and cutting machinery services delivering structural strength, precision workmanship, and safety standards.
-            </p>
-        </div>
-        
-        <!-- Services Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php
-            $services = [
-                [
-                    'icon' => '🔧',
-                    'title' => 'STRUCTURAL SLITTING',
-                    'desc' => 'High-precision slitting solutions for various materials with automated tension control and digital monitoring.',
-                ],
-                [
-                    'icon' => '⚙️',
-                    'title' => 'FABRICATION WORKS',
-                    'desc' => 'Complete fabrication services including cutting, bending, and assembly with quality assurance.',
-                ],
-                [
-                    'icon' => '🔨',
-                    'title' => 'REPAIR WELDING',
-                    'desc' => 'Expert repair and maintenance services for all types of industrial machinery and equipment.',
-                ],
-                [
-                    'icon' => '🏗️',
-                    'title' => 'STEEL FRAMEWORK',
-                    'desc' => 'Robust steel frame construction for heavy-duty industrial applications and structures.',
-                ],
-                [
-                    'icon' => '🎯',
-                    'title' => 'COATING SYSTEMS',
-                    'desc' => 'Advanced coating machinery for uniform application and quick-drying capabilities.',
-                ],
-                [
-                    'icon' => '📦',
-                    'title' => 'WRAPPING MACHINES',
-                    'desc' => 'Automated wrapping solutions for efficient packaging and material handling.',
-                ]
-            ];
-            
-            foreach ($services as $index => $service):
-            ?>
-            <div class="service-card group relative bg-gray-900 p-8 border border-gray-800 overflow-hidden cursor-pointer opacity-0 transform translate-y-10 hover:border-orange-600 transition-all duration-500" 
-                 data-delay="<?php echo $index * 100; ?>">
-                <!-- Hover Background with gradient animation -->
-                <div class="absolute inset-0 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-out"></div>
-                
-                <!-- Animated beam effect -->
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                </div>
-                
-                <!-- Content -->
-                <div class="relative z-10">
-                    <div class="text-5xl mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                        <?php echo $service['icon']; ?>
-                    </div>
-                    
-                    <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-wider group-hover:text-white transition-colors duration-300 transform group-hover:translate-x-2 transition-transform duration-300">
-                        <?php echo $service['title']; ?>
-                    </h3>
-                    
-                    <p class="text-gray-400 leading-relaxed mb-6 group-hover:text-white/90 transition-colors duration-300">
-                        <?php echo $service['desc']; ?>
-                    </p>
-                    
-                    <!-- <a href="#" class="inline-flex items-center text-orange-600 font-bold uppercase text-sm group-hover:text-white transition-colors duration-300">
-                        Learn More 
-                        <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform duration-300"></i>
-                    </a> -->
-                </div>
-                
-                <!-- Corner Decoration with animation -->
-                <div class="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-orange-600 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100"></div>
-                <div class="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-orange-600 opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-0 group-hover:scale-100"></div>
-                
-                <!-- Glow effect -->
-                <div class="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-800 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-700"></div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<!-- Featured Categories Section -->
-<section class="py-20 bg-gray-900/50 relative overflow-hidden">
-    <div class="container mx-auto px-4 lg:px-8">
-        <div class="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
-            <div class="opacity-0 transform -translate-x-10 animate-on-scroll">
-                <span class="text-orange-600 text-sm font-black uppercase tracking-[0.3em] mb-4 block">Machinery Categories</span>
-                <h2 class="text-4xl font-bold text-white leading-tight">
-                    EXPLORE OUR <br>
-                    <span class="text-gray-500 italic">CORE INDUSTRIES</span>
-                </h2>
-            </div>
-            <div class="opacity-0 transform translate-x-10 animate-on-scroll">
-                <a href="products.php" class="text-orange-600 font-bold uppercase tracking-widest text-xs flex items-center group">
-                    View All Categories
-                    <i class="fas fa-chevron-right ml-3 group-hover:translate-x-2 transition-transform"></i>
-                </a>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <?php
-            $feat_cats = $pdo->query("SELECT * FROM categories WHERE status = 'active' ORDER BY featured DESC, id ASC LIMIT 4")->fetchAll();
-            foreach ($feat_cats as $fc):
-            ?>
-            <a href="products.php?category=<?php echo h($fc['slug']); ?>" class="group relative h-80 rounded-2xl overflow-hidden border border-gray-800 hover:border-orange-600/50 transition-all duration-700 opacity-0 transform translate-y-10 animate-on-scroll">
-                <img src="<?php echo resolve_url($fc['image']); ?>" alt="<?php echo h($fc['name']); ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 p-8 w-full transform group-hover:-translate-y-2 transition-transform duration-500">
-                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-orange-500 transition-colors"><?php echo h($fc['name']); ?></h3>
-                    <div class="w-12 h-1 bg-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-                </div>
-                <!-- Blueprint accent -->
-                <div class="absolute top-4 right-4 w-10 h-10 border-t border-r border-white/10 group-hover:border-orange-600/50 transition-colors"></div>
-            </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-
-
-
-<!-- Testimonials Section -->
-<section class="py-20 bg-black">
-    <div class="container mx-auto px-4 lg:px-8">
-        <div class="testimonials-header text-center mb-16 opacity-0 transform translate-y-10">
-            <div class="inline-block mb-6">
-                <span class="text-orange-600 text-sm font-bold uppercase tracking-widest border-l-4 border-orange-600 pl-4 hover:pl-6 transition-all duration-300">Testimonials</span>
-            </div>
-            
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                WHAT OUR
-                <span class="block text-gray-400">CLIENTS SAY</span>
-            </h2>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <?php
-            $testimonials = [
-                [
-                    'name' => 'Rajesh Kumar',
-                    'company' => 'Kumar Packaging Ltd.',
-                    'comment' => 'The slitting machine from VIVA ENGINEERING increased our production by 40%. Excellent after-sales service and technical support!'
-                ],
-                [
-                    'name' => 'Priya Sharma',
-                    'company' => 'Sharma Industries',
-                    'comment' => 'Reliable machines with minimal maintenance requirements. Their technical support team is always available when needed.'
-                ],
-                [
-                    'name' => 'Amit Patel',
-                    'company' => 'Patel Manufacturing',
-                    'comment' => 'We invested in their complete production line. Best decision for our expansion plans. Highly recommended!'
-                ]
-            ];
-            
-            foreach ($testimonials as $index => $testimonial):
-            ?>
-            <div class="testimonial-card bg-gray-900 border border-gray-800 p-8 hover:border-orange-600 transition-all duration-700 group cursor-pointer opacity-0 transform translate-y-10 hover:-translate-y-4 hover:shadow-2xl hover:shadow-orange-600/20" 
-                 data-delay="<?php echo $index * 150; ?>">
-                
-                <!-- Animated background -->
-                <div class="absolute inset-0 bg-gradient-to-br from-orange-600/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                
-                <!-- Quote Icon -->
-                <div class="text-4xl text-orange-600 mb-6 opacity-50 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500 relative z-10">
-                    <i class="fas fa-quote-left"></i>
-                </div>
-                
-                <!-- Rating -->
-                <div class="flex mb-6 relative z-10">
-                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                    <i class="fas fa-star text-orange-500 mr-1 transform hover:scale-125 hover:rotate-12 transition-all duration-300"></i>
-                    <?php endfor; ?>
-                </div>
-                
-                <!-- Comment -->
-                <p class="text-gray-300 italic leading-relaxed mb-8 text-lg group-hover:text-white transition-colors duration-300 relative z-10">
-                    "<?php echo $testimonial['comment']; ?>"
-                </p>
-                
-                <!-- Client Info -->
-                <div class="flex items-center pt-6 border-t border-gray-800 group-hover:border-orange-600 transition-colors duration-500 relative z-10">
-                    <div class="w-14 h-14 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full flex items-center justify-center mr-4 transform group-hover:scale-110 transition-all duration-700 shadow-lg shadow-orange-600/50">
-                        <i class="fas fa-user text-xl text-white"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors duration-300"><?php echo $testimonial['name']; ?></h4>
-                        <p class="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300"><?php echo $testimonial['company']; ?></p>
-                    </div>
-                </div>
-                
-                <!-- Hover Corners -->
-                <div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-orange-600 opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-0 group-hover:scale-100"></div>
-                <div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-orange-600 opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-0 group-hover:scale-100"></div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
 <!-- CTA Section -->
 <section class="cta-section py-24 bg-gradient-to-r from-black via-gray-900 to-black relative overflow-hidden opacity-0">
     <!-- Background Pattern -->
@@ -468,7 +290,7 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
     
     <div class="container mx-auto px-4 lg:px-8 relative z-10">
         <div class="max-w-4xl mx-auto text-center text-white">
-            <h2 class="cta-title text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight opacity-0 transform translate-y-10">
+            <h2 class="cta-title text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight opacity-0 transform translate-y-10">
                 READY TO TRANSFORM YOUR
                 <span class="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">PRODUCTION LINE?</span>
             </h2>
@@ -824,6 +646,15 @@ $services_bg = resolve_url(get_setting('services_bg_path', 'assets/images/servic
    ============================================ */
 
 /* About section animations */
+.cat-grid-header.active,
+.services-header.active {
+    animation: slideInUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.cat-grid-item.active {
+    animation: slideInUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
 .about-image.active {
     animation: slideInLeft 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
@@ -1415,6 +1246,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Observe all animated elements
     const animatedElements = document.querySelectorAll(`
+        .cat-grid-header,
+        .cat-grid-item,
         .about-image,
         .about-content,
         .about-card,

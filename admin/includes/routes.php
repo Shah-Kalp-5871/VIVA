@@ -40,6 +40,9 @@ $ADMIN_ROUTES = [
     // ── Messages ──
     'messages'           => '/messages.php',
 
+    // ── Leads ──
+    'leads'              => '/leads.php',
+
     // ── Gallery ──
     'gallery'            => '/gallery/',
     'gallery.delete'     => '/gallery/?delete={id}',

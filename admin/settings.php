@@ -61,6 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
         'maintenance_mode' => $maintenance_mode,
         'footer_logo_path' => $footer_logo_path,
         'preloader_logo_path' => $preloader_logo_path,
+        // Lead Popup Settings
+        'popup_enabled' => isset($_POST['popup_enabled']) ? '1' : '0',
+        'popup_delay' => (int)($_POST['popup_delay'] ?? 30),
     ];
 
     // Generate the PHP file content
@@ -501,6 +504,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_settings'])) {
                 </div>
             </div>
             <p class="text-xs text-gray-500 mt-3">These texts/links can power your homepage hero buttons or contact strips.</p>
+        </div>
+
+        <!-- Lead Generation Popup Settings -->
+        <div class="lg:col-span-2 card p-6">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-8 h-8 bg-purple-600/10 rounded-lg flex items-center justify-center text-purple-400">
+                    <i class="fas fa-window-restore text-sm"></i>
+                </div>
+                <h3 class="text-lg font-bold">Lead Generation Popup</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="popup_enabled" value="1" <?php echo get_setting('popup_enabled') === '1' ? 'checked' : ''; ?> 
+                            class="w-5 h-5 text-orange-600 bg-black border-gray-700 rounded focus:ring-orange-600">
+                        <div>
+                            <label class="text-sm font-bold text-white block">Enable Lead Popup</label>
+                            <p class="text-[10px] text-gray-500">Show a lead capture modal to website visitors.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Display Delay (Seconds)</label>
+                    <div class="flex items-center space-x-3">
+                        <input type="number" name="popup_delay" value="<?php echo get_setting('popup_delay', 30); ?>" min="1" max="300"
+                            class="w-32 bg-black border border-gray-800 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-orange-600 transition-all">
+                        <span class="text-sm text-gray-500 font-bold">Seconds</span>
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-2 italic">Recommended: 30 seconds to allow users to browse first.</p>
+                </div>
+            </div>
         </div>
 
         <!-- Analytics & Pixels -->

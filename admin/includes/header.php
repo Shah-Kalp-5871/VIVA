@@ -91,9 +91,28 @@ $current_admin_page = basename($_SERVER['PHP_SELF']);
             border: 1px solid #333333;
             border-radius: 12px;
         }
-        /* Hide scrollbar for sidebar */
-        .sidebar-scroll::-webkit-scrollbar {
-            display: none;
+        /* Global Form Overrides for Dark Mode */
+        select option {
+            background-color: #111827 !important;
+            color: #ffffff !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #4b5563 !important;
+        }
+        /* Custom Scrollbar for better dark mode look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444444;
         }
     </style>
 </head>
@@ -146,6 +165,19 @@ $current_admin_page = basename($_SERVER['PHP_SELF']);
                     <span class="text-sm flex-1 text-left">Messages</span>
                     <?php if ($new_msgs_count > 0): ?>
                         <span class="bg-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full text-white ml-2"><?php echo $new_msgs_count; ?></span>
+                    <?php endif; ?>
+                </a>
+
+                <?php
+                // Get new leads count for badge
+                $new_leads_stmt = $pdo->query("SELECT COUNT(*) FROM lead_submissions WHERE status = 'new'");
+                $new_leads_count = $new_leads_stmt->fetchColumn();
+                ?>
+                <a href="<?php echo route('leads'); ?>" class="nav-item flex items-center px-4 py-3 rounded-lg <?php echo is_route('leads') ? 'active' : ''; ?>">
+                    <i class="fas fa-id-card w-6"></i>
+                    <span class="text-sm flex-1 text-left">Leads</span>
+                    <?php if ($new_leads_count > 0): ?>
+                        <span class="bg-purple-600 text-[10px] font-bold px-2 py-0.5 rounded-full text-white ml-2"><?php echo $new_leads_count; ?></span>
                     <?php endif; ?>
                 </a>
 

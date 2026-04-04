@@ -138,14 +138,14 @@ $products = $stmt->fetchAll();
     </div>
 
     <!-- Stats & Filters -->
-    <div class="flex flex-col lg:flex-row gap-6 mb-8">
-        <form method="GET" class="flex-1 flex gap-2">
-            <div class="relative flex-1">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+    <div class="flex flex-col lg:flex-row gap-6 mb-10 p-6 bg-gray-900 border border-gray-800 rounded-2xl shadow-xl">
+        <form method="GET" class="flex-1 flex flex-col md:flex-row gap-4">
+            <div class="relative flex-1 group">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-orange-600 transition-colors"></i>
                 <input type="text" name="search" value="<?php echo h($search); ?>" placeholder="Search machines..." 
-                    class="w-full bg-gray-900 border border-gray-800 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-orange-600 transition-all">
+                    class="w-full bg-black border border-gray-800 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-orange-600 focus:ring-1 focus:ring-orange-600/50 transition-all">
             </div>
-            <select name="cat_id" class="bg-gray-900 border border-gray-800 rounded-xl py-3 px-6 text-white focus:outline-none focus:border-orange-600 transition-all">
+            <select name="cat_id" class="md:w-64 bg-black border border-gray-800 rounded-xl py-3.5 px-6 text-white focus:outline-none focus:border-orange-600 transition-all cursor-pointer">
                 <option value="">All Categories</option>
                 <?php foreach ($all_categories as $cat): ?>
                     <option value="<?php echo $cat['id']; ?>" <?php echo $cat_filter == $cat['id'] ? 'selected' : ''; ?>>
@@ -153,7 +153,14 @@ $products = $stmt->fetchAll();
                     </option>
                 <?php endforeach; ?>
             </select>
-            <button type="submit" class="bg-gray-800 hover:bg-gray-700 text-white px-6 rounded-xl font-bold">Filter</button>
+            <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-orange-600/20 active:scale-95">
+                <i class="fas fa-filter mr-2"></i> Apply Filter
+            </button>
+            <?php if ($search || $cat_filter): ?>
+                <a href="<?php echo route('products'); ?>" class="flex items-center justify-center bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white px-6 py-3.5 rounded-xl transition-all">
+                    Reset
+                </a>
+            <?php endif; ?>
         </form>
     </div>
 
@@ -207,204 +214,202 @@ $products = $stmt->fetchAll();
             <div class="md:col-span-8 space-y-12">
                 
                 <!-- Section: Identity -->
-                <div class="space-y-6">
-                    <h4 class="text-orange-600 text-xs font-black uppercase tracking-[0.2em] flex items-center">
-                        <span class="w-8 h-[2px] bg-orange-600/30 mr-3"></span>
+                <div class="space-y-8 bg-black/40 p-10 rounded-3xl border border-gray-800 hover:border-gray-700 transition-all shadow-inner shadow-black/50">
+                    <h4 class="text-orange-500 text-xs font-black uppercase tracking-[0.3em] flex items-center">
+                        <span class="w-12 h-[2px] bg-orange-600/50 mr-4"></span>
                         Machine Identity
                     </h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Machine Name</label>
-                            <input type="text" name="name" value="<?php echo $edit_prod['name'] ?? ''; ?>" required placeholder="e.g. BOPP Tape Slitter"
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:outline-none focus:border-orange-600 focus:ring-1 focus:ring-orange-600/50 transition-all">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Proprietary Name <span class="text-orange-600">*</span></label>
+                            <input type="text" name="name" value="<?php echo $edit_prod['name'] ?? ''; ?>" required placeholder="e.g. ULTRA-TECH SLITTER SERIES"
+                                class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-6 text-lg font-bold text-white focus:outline-none focus:border-orange-600 focus:ring-1 focus:ring-orange-600/50 transition-all placeholder:text-gray-700">
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Category</label>
-                            <select name="category_id" required class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:outline-none focus:border-orange-600 transition-all appearance-none cursor-pointer">
-                                <option value="">Select Category</option>
-                                <?php foreach ($all_categories as $cat): ?>
-                                    <option value="<?php echo $cat['id']; ?>" <?php echo (isset($edit_prod['category_id']) && $edit_prod['category_id'] == $cat['id']) ? 'selected' : ''; ?>>
-                                        <?php echo h($cat['display_name']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Target Category <span class="text-orange-600">*</span></label>
+                            <div class="relative group">
+                                <select name="category_id" required class="w-full bg-black border border-gray-800 rounded-2xl py-4.5 px-6 text-white focus:outline-none focus:border-orange-600 transition-all appearance-none cursor-pointer">
+                                    <option value="">Select Category</option>
+                                    <?php foreach ($all_categories as $cat): ?>
+                                        <option value="<?php echo $cat['id']; ?>" <?php echo (isset($edit_prod['category_id']) && $edit_prod['category_id'] == $cat['id']) ? 'selected' : ''; ?>>
+                                            <?php echo h($cat['display_name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <i class="fas fa-chevron-down absolute right-6 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none group-focus-within:text-orange-600"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="space-y-2">
-                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Premium Tagline</label>
-                        <input type="text" name="tagline" value="<?php echo $edit_prod['tagline'] ?? ''; ?>" placeholder="Precision Engineering for High-Performance Production"
-                            class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:outline-none focus:border-orange-600 focus:ring-1 focus:ring-orange-600/50 transition-all font-medium">
+                    <div class="space-y-3">
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Professional Tagline</label>
+                        <input type="text" name="tagline" value="<?php echo $edit_prod['tagline'] ?? ''; ?>" placeholder="Precision Engineering for High-Performance Production Systems"
+                            class="w-full bg-black border border-gray-800 rounded-2xl py-4.5 px-6 text-white focus:outline-none focus:border-orange-600 focus:ring-1 focus:ring-orange-600/50 transition-all font-medium placeholder:text-gray-700">
                     </div>
                 </div>
 
                 <!-- Section: Commercial -->
-                <div class="space-y-6">
-                    <h4 class="text-orange-600 text-xs font-black uppercase tracking-[0.2em] flex items-center">
-                        <span class="w-8 h-[2px] bg-orange-600/30 mr-3"></span>
-                        Commercial Details
+                <div class="space-y-8 bg-black/40 p-10 rounded-3xl border border-gray-800 hover:border-gray-700 transition-all">
+                    <h4 class="text-orange-500 text-xs font-black uppercase tracking-[0.3em] flex items-center">
+                        <span class="w-12 h-[2px] bg-orange-600/50 mr-4"></span>
+                        Commercial Parameters
                     </h4>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div class="space-y-2">
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Tag/Label</label>
-                            <input type="text" name="tag" value="<?php echo $edit_prod['tag'] ?? ''; ?>" placeholder="Cutting Systems"
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-3 px-4 text-white text-sm focus:border-orange-600 transition-all">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Tag/Badge</label>
+                            <input type="text" name="tag" value="<?php echo $edit_prod['tag'] ?? ''; ?>" placeholder="Heavy Duty"
+                                class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-5 text-white text-sm focus:border-orange-600 transition-all">
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Price Info (<?php echo get_setting('currency_code', 'USD'); ?>)</label>
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Price Control</label>
                             <div class="relative group">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-orange-600 font-bold text-xs pointer-events-none opacity-50 group-focus-within:opacity-100 transition-opacity uppercase"><?php echo get_setting('currency_code', 'USD'); ?></span>
-                                <input type="text" name="price" value="<?php echo $edit_prod['price'] ?? 'Contact for Price'; ?>" 
-                                    class="w-full bg-white/5 border border-gray-800 rounded-xl py-3 pl-12 pr-4 text-white text-sm focus:border-orange-600 transition-all">
+                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-orange-600 font-black text-xs pointer-events-none transition-opacity uppercase">Contact</span>
+                                <input type="text" name="price" value="<?php echo $edit_prod['price'] ?? 'Request Quote'; ?>" 
+                                    class="w-full bg-black border border-gray-800 rounded-2xl py-4 pl-20 pr-5 text-white text-sm focus:border-orange-600 transition-all">
                             </div>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Availability</label>
-                            <select name="availability" class="w-full bg-white/5 border border-gray-800 rounded-xl py-3 px-4 text-white text-sm focus:border-orange-600 transition-all">
-                                <option value="In Stock" <?php echo ($edit_prod['availability'] ?? '') == 'In Stock' ? 'selected' : ''; ?>>In Stock</option>
-                                <option value="Out of Stock" <?php echo ($edit_prod['availability'] ?? '') == 'Out of Stock' ? 'selected' : ''; ?>>Out of Stock</option>
-                            </select>
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Availability</label>
+                            <div class="relative group">
+                                <select name="availability" class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-5 text-white text-sm focus:border-orange-600 transition-all appearance-none cursor-pointer">
+                                    <option value="In Stock" <?php echo ($edit_prod['availability'] ?? '') == 'In Stock' ? 'selected' : ''; ?>>Active / Ready</option>
+                                    <option value="Out of Stock" <?php echo ($edit_prod['availability'] ?? '') == 'Out of Stock' ? 'selected' : ''; ?>>On Backorder</option>
+                                </select>
+                                <i class="fas fa-caret-down absolute right-5 top-1/2 -translate-y-1/2 text-gray-600"></i>
+                            </div>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Lead Time</label>
-                            <input type="text" name="lead_time" value="<?php echo $edit_prod['lead_time'] ?? '4-6 Weeks'; ?>" 
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-3 px-4 text-white text-sm focus:border-orange-600 transition-all">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest pl-1">Featured</label>
-                            <label class="flex items-center space-x-3 cursor-pointer p-3 bg-white/5 rounded-xl border border-gray-800 hover:border-orange-600/50 transition-all">
-                                <input type="checkbox" name="featured" value="1" <?php echo (isset($edit_prod['featured']) && $edit_prod['featured']) ? 'checked' : ''; ?> 
-                                    class="w-5 h-5 text-orange-600 bg-black border-gray-700 rounded focus:ring-orange-600">
-                                <span class="text-xs text-gray-400">Homepage</span>
-                            </label>
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Lead Time</label>
+                            <input type="text" name="lead_time" value="<?php echo $edit_prod['lead_time'] ?? '2-4 Weeks'; ?>" 
+                                class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-5 text-white text-sm focus:border-orange-600 transition-all">
                         </div>
                     </div>
                 </div>
 
                 <!-- Section: Content -->
-                <div class="space-y-8 bg-black/20 p-8 rounded-2xl border border-gray-800">
-                    <h4 class="text-orange-600 text-xs font-black uppercase tracking-[0.2em] flex items-center mb-8">
-                        <i class="fas fa-file-alt mr-3"></i>
+                <div class="space-y-8 bg-black/60 p-10 rounded-3xl border border-gray-800 shadow-2xl relative overflow-hidden">
+                    <!-- Subtle background glow -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-orange-600/5 blur-[100px] -mr-32 -mt-32"></div>
+
+                    <h4 class="text-orange-500 text-xs font-black uppercase tracking-[0.3em] flex items-center mb-10">
+                        <i class="fas fa-file-invoice mr-4 text-orange-600"></i>
                         Industrial Documentation
                     </h4>
                     
                     <div class="space-y-4">
-                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Professional Overview (HTML supported)</label>
-                        <textarea name="description" rows="6" placeholder="Describe the machine's core engineering principles and production advantages..."
-                            class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:border-orange-600 transition-all leading-relaxed"><?php echo $edit_prod['description'] ?? ''; ?></textarea>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Engineering Overview <span class="text-[9px] text-gray-600 ml-2">(HTML / Rich Text Supported)</span></label>
+                        <textarea name="description" rows="8" placeholder="Detailed description of machine capabilities..."
+                            class="w-full bg-black/80 border border-gray-800 rounded-2xl py-5 px-6 text-white focus:border-orange-600 transition-all leading-relaxed placeholder:text-gray-800"><?php echo $edit_prod['description'] ?? ''; ?></textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Machine Features</label>
-                                <span class="bg-orange-600/10 text-orange-500 px-2 py-1 rounded text-[9px] font-mono">ONE PER LINE</span>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Key Features List</label>
+                                <span class="bg-orange-600/10 text-orange-500 px-3 py-1 rounded-full text-[9px] font-black tracking-tighter">ONE PER LINE</span>
                             </div>
-                            <textarea name="features" rows="10" placeholder="Precision Tension Control&#10;High-Speed Steel Blades&#10;Automatic Web Guiding" 
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white font-mono text-xs focus:border-orange-600 transition-all"><?php echo $edit_prod['features'] ?? ''; ?></textarea>
+                            <textarea name="features" rows="12" placeholder="e.g. PLC Controlled Operation&#10;Automatic Tension Control" 
+                                class="w-full bg-black/80 border border-gray-800 rounded-2xl py-5 px-6 text-white font-mono text-xs focus:border-orange-600 transition-all placeholder:text-gray-800"><?php echo $edit_prod['features'] ?? ''; ?></textarea>
                         </div>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Technical Specifications</label>
-                                <span class="bg-blue-600/10 text-blue-500 px-2 py-1 rounded text-[9px] font-mono">LABEL: VALUE</span>
+                                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Technical Datasheet</label>
+                                <span class="bg-blue-600/10 text-blue-500 px-3 py-1 rounded-full text-[9px] font-black tracking-tighter">KEY: VALUE</span>
                             </div>
-                            <textarea name="specifications" rows="10" placeholder="Production Speed: 200 m/min&#10;Main Motor: 7.5 HP&#10;Power Supply: 415V 3-Phase" 
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white font-mono text-xs focus:border-orange-600 transition-all"><?php echo $edit_prod['specifications'] ?? ''; ?></textarea>
+                            <textarea name="specifications" rows="12" placeholder="Speed: 300mpm&#10;Width: 1300mm" 
+                                class="w-full bg-black/80 border border-gray-800 rounded-2xl py-5 px-6 text-white font-mono text-xs focus:border-orange-600 transition-all placeholder:text-gray-800"><?php echo $edit_prod['specifications'] ?? ''; ?></textarea>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Ideal Applications</label>
-                                <span class="text-[9px] text-gray-600 font-mono italic">Substrates/Industries</span>
-                            </div>
-                            <textarea name="applications" rows="5" placeholder="BOPP Packaging Tape&#10;Polyester Film Converting&#10;Flexible Packaging" 
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white text-sm focus:border-orange-600 transition-all font-mono"><?php echo $edit_prod['applications'] ?? ''; ?></textarea>
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Core Applications</label>
+                            <textarea name="applications" rows="6" placeholder="Flexible Packaging&#10;Label Converting..." 
+                                class="w-full bg-black/80 border border-gray-800 rounded-2xl py-5 px-6 text-white text-sm focus:border-orange-600 transition-all font-mono placeholder:text-gray-800"><?php echo $edit_prod['applications'] ?? ''; ?></textarea>
                         </div>
                         <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Operational Benefits</label>
-                                <span class="text-[9px] text-gray-600 font-mono italic">Value Propositions</span>
-                            </div>
-                            <textarea name="benefits" rows="5" placeholder="Minimal Core Slippage&#10;Energy Efficient Operation&#10;Reduced Material Scrapping" 
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white text-sm focus:border-orange-600 transition-all font-mono"><?php echo $edit_prod['benefits'] ?? ''; ?></textarea>
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Machine Advantages</label>
+                            <textarea name="benefits" rows="6" placeholder="Low Maintenance&#10;User-Friendly Interface..." 
+                                class="w-full bg-black/80 border border-gray-800 rounded-2xl py-5 px-6 text-white text-sm focus:border-orange-600 transition-all font-mono placeholder:text-gray-800"><?php echo $edit_prod['benefits'] ?? ''; ?></textarea>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section: SEO -->
-                <div class="space-y-6 pt-8 border-t border-gray-800">
-                    <h4 class="text-orange-600 text-xs font-black uppercase tracking-[0.2em] flex items-center">
-                        <span class="w-8 h-[2px] bg-orange-600/30 mr-3"></span>
-                        Search Engine Optimization
+                <div class="space-y-8 bg-black/40 p-10 rounded-3xl border border-gray-800 shadow-md">
+                    <h4 class="text-orange-500 text-xs font-black uppercase tracking-[0.3em] flex items-center">
+                        <span class="w-12 h-[2px] bg-orange-600/50 mr-4"></span>
+                        Search Optimization (SEO)
                     </h4>
-                    <div class="space-y-4">
-                        <div class="space-y-2">
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Meta Title</label>
-                            <input type="text" name="seo_title" value="<?php echo $edit_prod['seo_title'] ?? ''; ?>" placeholder="SEO Optimized Title"
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:outline-none focus:border-orange-600 transition-all">
+                    <div class="space-y-6">
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Meta Title Tag</label>
+                            <input type="text" name="seo_title" value="<?php echo $edit_prod['seo_title'] ?? ''; ?>" placeholder="Control how the product appears in search results"
+                                class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-orange-600 transition-all">
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Meta Description</label>
-                            <textarea name="seo_description" rows="3" placeholder="Brief description for search engines..."
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:border-orange-600 transition-all"><?php echo $edit_prod['seo_description'] ?? ''; ?></textarea>
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Meta Description</label>
+                            <textarea name="seo_description" rows="4" placeholder="Brief summary for search engines (approx 160 characters)..."
+                                class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-6 text-white focus:border-orange-600 transition-all leading-relaxed"><?php echo $edit_prod['seo_description'] ?? ''; ?></textarea>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest pl-1">Meta Keywords</label>
-                            <input type="text" name="meta_keywords" value="<?php echo $edit_prod['meta_keywords'] ?? ''; ?>" placeholder="Keyword 1, Keyword 2, Keyword 3"
-                                class="w-full bg-white/5 border border-gray-800 rounded-xl py-4 px-5 text-white focus:outline-none focus:border-orange-600 transition-all">
+                        <div class="space-y-3">
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest pl-1">Target Keywords</label>
+                            <input type="text" name="meta_keywords" value="<?php echo $edit_prod['meta_keywords'] ?? ''; ?>" placeholder="keyword1, keyword2, machine type, etc."
+                                class="w-full bg-black border border-gray-800 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-orange-600 transition-all">
                         </div>
                     </div>
                 </div>
 
-                <div class="pt-8 border-t border-gray-800 flex justify-end space-x-4">
-                    <button type="reset" class="px-8 py-4 rounded-xl text-gray-400 font-bold hover:text-white transition-all">Reset Changes</button>
-                    <button type="submit" name="save_product" class="bg-orange-600 hover:bg-orange-700 text-white px-12 py-4 rounded-xl font-black uppercase tracking-widest shadow-xl shadow-orange-600/20 transition-all transform hover:-translate-y-1">
-                        <?php echo $edit_prod ? 'Update Machine' : 'Create Machine'; ?>
+                <div class="pt-10 border-t border-gray-800 flex flex-col md:flex-row justify-end space-y-4 md:space-y-0 md:space-x-6">
+                    <button type="reset" class="px-8 py-4 rounded-2xl text-gray-500 font-bold hover:text-white hover:bg-white/5 transition-all uppercase tracking-widest text-xs">Reset Form</button>
+                    <button type="submit" name="save_product" class="bg-orange-600 hover:bg-orange-700 text-white px-16 py-5 rounded-2xl font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-600/30 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center">
+                        <?php echo $edit_prod ? 'Update Machine Specs' : 'Initialize New Machine'; ?>
+                        <i class="fas fa-check-circle ml-3"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Sidebar Column -->
-            <div class="md:col-span-4 space-y-8">
-                <div class="space-y-6">
-                    <h4 class="text-orange-600 text-xs font-black uppercase tracking-[0.2em] flex items-center">
-                        <span class="w-8 h-[2px] bg-orange-600/30 mr-3"></span>
-                        Visual Media
+            <div class="md:col-span-4 space-y-10">
+                <div class="space-y-6 bg-black/40 p-8 rounded-3xl border border-gray-800 shadow-xl">
+                    <h4 class="text-orange-500 text-xs font-black uppercase tracking-[0.3em] flex items-center">
+                        <i class="fas fa-camera mr-3"></i>
+                        Master Visual
                     </h4>
                     
                     <div class="space-y-4">
                         <input type="hidden" name="featured_image" id="product_image_path" value="<?php echo $edit_prod['featured_image'] ?? ''; ?>">
                         
-                        <div id="image_preview_container" class="bg-white/5 border-2 border-dashed border-gray-800 rounded-2xl p-6 text-center group hover:border-orange-600/50 transition-all cursor-pointer" onclick="openProductMediaPicker()">
+                        <div id="image_preview_container" class="bg-black border-2 border-dashed border-gray-800 rounded-2xl p-6 text-center group hover:border-orange-600/50 transition-all cursor-pointer relative overflow-hidden" onclick="openProductMediaPicker()">
                             <?php if (isset($edit_prod['featured_image']) && $edit_prod['featured_image']): ?>
-                                <img src="../../<?php echo $edit_prod['featured_image']; ?>" id="product_image_preview" class="w-full h-48 object-contain rounded-xl bg-white/5 p-4 mb-4">
-                                <p class="text-xs text-gray-500">Click to change machine image</p>
+                                <img src="../../<?php echo $edit_prod['featured_image']; ?>" id="product_image_preview" class="w-full h-48 object-contain rounded-xl bg-gray-950 p-4 mb-4 relative z-10 transition-transform group-hover:scale-105 duration-500">
+                                <p class="text-xs text-gray-500 relative z-10">Change Master Image</p>
+                                <!-- Glow backdrop -->
+                                <div class="absolute inset-0 bg-orange-600/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             <?php else: ?>
-                                <div id="no_image_placeholder" class="py-10">
-                                    <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-600 group-hover:text-orange-600 transition-colors">
-                                        <i class="fas fa-image text-2xl"></i>
+                                <div id="no_image_placeholder" class="py-10 relative z-10">
+                                    <div class="w-20 h-20 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-700 group-hover:text-orange-600 group-hover:bg-orange-600/10 transition-all duration-500 shadow-inner">
+                                        <i class="fas fa-cloud-upload-alt text-3xl"></i>
                                     </div>
-                                    <p class="text-sm font-bold text-gray-400">No Image Selected</p>
-                                    <p class="text-[10px] text-gray-600 mt-1">Click to browse library</p>
+                                    <p class="text-sm font-black text-gray-400 uppercase tracking-widest">No Media Set</p>
+                                    <p class="text-[10px] text-gray-600 mt-2">Click to select machine visual</p>
                                 </div>
-                                <img src="" id="product_image_preview" class="hidden w-full h-48 object-contain rounded-xl bg-white/5 p-4 mb-4 text-center">
+                                <img src="" id="product_image_preview" class="hidden w-full h-48 object-contain rounded-xl bg-black p-4 mb-4 text-center">
                             <?php endif; ?>
                         </div>
 
-                        <button type="button" onclick="openProductMediaPicker()" class="w-full py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-xs font-bold uppercase tracking-widest transition-all">
-                            <i class="fas fa-photo-video mr-2"></i> Select From Media Library
+                        <button type="button" onclick="openProductMediaPicker()" class="w-full py-4.5 bg-orange-600/10 hover:bg-orange-600 border border-orange-600/30 text-orange-500 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg shadow-orange-600/5 active:scale-95">
+                            <i class="fas fa-layer-group mr-2"></i> Launch Media Library
                         </button>
                     </div>
                 </div>
 
-                <div class="space-y-6 pt-8 border-t border-gray-800">
-                    <h4 class="text-orange-600 text-xs font-black uppercase tracking-[0.2em] flex items-center">
-                        <span class="w-8 h-[2px] bg-orange-600/30 mr-3"></span>
-                        Product Gallery
+                <div class="space-y-6 bg-black/40 p-8 rounded-3xl border border-gray-800 shadow-xl">
+                    <h4 class="text-orange-500 text-xs font-black uppercase tracking-[0.3em] flex items-center">
+                        <i class="fas fa-images mr-3"></i>
+                        Feature Gallery
                     </h4>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <input type="hidden" name="gallery_images" id="product_gallery_input" value="<?php echo htmlspecialchars($edit_prod['gallery_images'] ?? '[]'); ?>">
                         
                         <div id="gallery_preview_container" class="grid grid-cols-2 gap-4">
@@ -417,20 +422,21 @@ $products = $stmt->fetchAll();
                             }
                             foreach ($gallery_items as $idx => $g_item): 
                             ?>
-                            <div class="gallery-item-wrapper relative group/gallery bg-white/5 rounded-xl border border-gray-800 p-2 overflow-hidden" data-id="<?php echo $g_item['id']; ?>">
-                                <img src="../../<?php echo h($g_item['path']); ?>" class="w-full h-24 object-cover rounded-lg">
+                            <div class="gallery-item-wrapper relative group/gallery bg-black rounded-xl border border-gray-800 p-2 overflow-hidden" data-id="<?php echo $g_item['id']; ?>">
+                                <img src="../../<?php echo h($g_item['path']); ?>" class="w-full h-24 object-cover rounded-lg group-hover/gallery:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/gallery:opacity-100 transition-opacity"></div>
                                 <button type="button" onclick="removeFromGallery(<?php echo $g_item['id']; ?>, this)" 
-                                    class="absolute top-2 right-2 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all shadow-xl hover:bg-red-700">
-                                    <i class="fas fa-times text-xs"></i>
+                                    class="absolute top-2 right-2 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover/gallery:opacity-100 transition-all shadow-xl hover:bg-red-700 active:scale-90">
+                                    <i class="fas fa-trash-alt text-[10px]"></i>
                                 </button>
                             </div>
                             <?php endforeach; ?>
                         </div>
 
-                        <button type="button" onclick="openGalleryPicker()" class="w-full py-4 bg-gray-900 border border-orange-600/30 hover:border-orange-600 text-gray-400 hover:text-white rounded-xl text-xs font-bold uppercase tracking-widest transition-all">
-                            <i class="fas fa-images mr-2 text-orange-600"></i> Manage Gallery
+                        <button type="button" onclick="openGalleryPicker()" class="w-full py-4.5 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-500 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-md active:scale-95">
+                            <i class="fas fa-plus-circle mr-2 text-orange-600"></i> Add Gallery Views
                         </button>
-                        <p class="text-[10px] text-gray-600 text-center uppercase tracking-widest">Selected images will appear on the machine detail page</p>
+                        <p class="text-[9px] text-gray-600 text-center uppercase tracking-widest leading-loose">Images will be presented in a high-resolution slider on the machine profile</p>
                     </div>
                 </div>
 
@@ -514,71 +520,90 @@ $products = $stmt->fetchAll();
     </div>
     <?php endif; ?>
 
-    <!-- Product Table -->
-    <div class="card overflow-hidden">
+    <!-- Product Table Section -->
+    <div class="card overflow-hidden border border-gray-800 bg-black shadow-2xl rounded-3xl">
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
+            <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gray-900/50">
-                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-widest">Machine</th>
-                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-widest text-center">Featured</th>
-                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-widest">Category</th>
-                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-widest">Status</th>
-                        <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-widest text-right">Actions</th>
+                    <tr class="bg-gray-900 shadow-sm border-b border-gray-800">
+                        <th class="px-8 py-6 text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Machine Portfolio</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] text-center">Featured</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Category</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Operational Status</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] text-right">Management</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-800">
+                <tbody class="divide-y divide-gray-900">
                     <?php if (empty($products)): ?>
                         <tr>
-                            <td colspan="4" class="px-6 py-10 text-center text-gray-500">No products found matching your criteria.</td>
+                            <td colspan="5" class="px-8 py-20 text-center text-gray-500">
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-box-open text-4xl mb-4 text-gray-800"></i>
+                                    <p class="uppercase tracking-[0.2em] font-black text-xs">No machine portfolio items found</p>
+                                </div>
+                            </td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($products as $prod): ?>
-                            <tr class="hover:bg-gray-800/30 transition-colors group">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="w-12 h-12 bg-white/5 rounded-lg overflow-hidden flex items-center justify-center p-2">
+                            <tr class="hover:bg-gray-800/20 transition-all group border-b border-gray-900/50">
+                                <td class="px-8 py-6">
+                                    <div class="flex items-center space-x-6">
+                                        <div class="w-16 h-16 bg-black border border-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-2 group-hover:border-orange-600/30 transition-all shadow-inner shadow-black">
                                             <?php if (!empty($prod['featured_image'])): ?>
                                                 <img src="../../<?php echo h($prod['featured_image']); ?>" class="w-full h-full object-contain">
                                             <?php else: ?>
-                                                <i class="fas fa-cog text-gray-700"></i>
+                                                <i class="fas fa-industry text-gray-800 text-xl"></i>
                                             <?php endif; ?>
                                         </div>
                                         <div>
-                                            <div class="font-bold text-white group-hover:text-orange-600 transition-colors"><?php echo $prod['name']; ?></div>
-                                            <div class="text-[10px] text-gray-500 font-mono"><?php echo $prod['slug']; ?></div>
+                                            <div class="font-black text-white group-hover:text-orange-600 transition-colors uppercase tracking-tight leading-none text-sm mb-1"><?php echo $prod['name']; ?></div>
+                                            <div class="text-[9px] text-gray-600 font-black uppercase tracking-[0.2em]"><?php echo $prod['slug']; ?></div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-8 py-6 text-center">
                                     <a href="<?php echo route('products.toggle', ['id' => $prod['id']]); ?>" class="inline-block transition-all hover:scale-125">
                                         <?php if ($prod['featured']): ?>
-                                            <i class="fas fa-star text-orange-500 text-lg drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]"></i>
+                                            <i class="fas fa-star text-orange-500 text-lg drop-shadow-[0_0_10px_rgba(249,115,22,0.6)]"></i>
                                         <?php else: ?>
-                                            <i class="far fa-star text-gray-700 hover:text-orange-500/50 text-lg"></i>
+                                            <i class="far fa-star text-gray-800 hover:text-orange-600/50 text-lg"></i>
                                         <?php endif; ?>
                                     </a>
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-xs bg-gray-900 text-gray-400 px-3 py-1 rounded-lg border border-gray-800">
-                                        <?php echo $prod['category_name']; ?>
+                                <td class="px-8 py-6">
+                                    <span class="inline-block text-[10px] bg-gray-900/80 text-orange-600/80 px-4 py-2 rounded-xl border border-orange-600/10 font-black uppercase tracking-[0.15em] leading-relaxed max-w-[200px]">
+                                        <?php echo str_replace(' ', '<br>', h($prod['category_name'])); ?>
                                     </span>
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider <?php echo $prod['status'] == 'active' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'; ?>">
-                                        <?php echo $prod['status']; ?>
-                                    </span>
+                                <td class="px-8 py-6">
+                                    <?php if ($prod['status'] == 'active'): ?>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
+                                            <span class="text-[10px] font-black text-green-500 uppercase tracking-widest pl-1">Live Portfolio</span>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]"></span>
+                                            <span class="text-[10px] font-black text-red-500 uppercase tracking-widest pl-1">Maintenance</span>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex items-center justify-end space-x-3">
+                                <td class="px-8 py-6">
+                                    <div class="flex items-center justify-end space-x-4">
                                         <a href="<?php echo route('site.product', ['slug' => $prod['slug']]); ?>" target="_blank" 
-                                            class="w-8 h-8 bg-blue-600/10 flex items-center justify-center text-blue-500 rounded-lg hover:bg-blue-600 hover:text-white transition-all" title="View on Site">
-                                            <i class="fas fa-eye text-xs"></i>
+                                            class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-gray-800 text-gray-500 hover:text-white rounded-xl hover:bg-orange-600 hover:border-orange-600 transition-all group/btn shadow-lg active:scale-90"
+                                            title="View Publicly">
+                                            <i class="fas fa-external-link-alt text-xs"></i>
                                         </a>
-                                        <a href="<?php echo route('products.edit', ['id' => $prod['id']]); ?>" class="w-8 h-8 bg-orange-600/10 flex items-center justify-center text-orange-600 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+                                        <a href="<?php echo route('products.edit', ['id' => $prod['id']]); ?>" 
+                                            class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-gray-800 text-gray-500 hover:text-white rounded-xl hover:bg-blue-600 hover:border-blue-600 transition-all group/btn shadow-lg active:scale-90"
+                                            title="Edit Specs">
                                             <i class="fas fa-edit text-xs"></i>
                                         </a>
-                                        <a href="<?php echo route('products.delete', ['id' => $prod['id']]); ?>" onclick="return confirm('Archive this machine?')" class="w-8 h-8 bg-red-600/10 flex items-center justify-center text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all">
+                                        <a href="<?php echo route('products.delete', ['id' => $prod['id']]); ?>" 
+                                            onclick="return confirm('Archive this machine portfolio? Information will be permanently removed.')"
+                                            class="w-10 h-10 flex items-center justify-center bg-gray-900 border border-gray-800 text-gray-500 hover:text-white rounded-xl hover:bg-red-600 hover:border-red-600 transition-all group/btn shadow-lg active:scale-90"
+                                            title="Delete Permanently">
                                             <i class="fas fa-trash-alt text-xs"></i>
                                         </a>
                                     </div>

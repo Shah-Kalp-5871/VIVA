@@ -1,34 +1,50 @@
 <?php
-$page_title = 'Contact Messages';
-require_once 'includes/header.php';
+require_once 'includes/config.php';
+check_admin_login();
 
-// Handle Actions (Mark as Read, Delete)
 $success_message = '';
 $error_message = '';
 
+// Handle AJAX Mark as Read
+if (isset($_POST['ajax_mark_read'])) {
+    $id = $_POST['id'] ?? null;
+    $status = $_POST['status'] ?? 'read';
+    if ($id) {
+        $stmt = $pdo->prepare("UPDATE contact_requests SET status = ? WHERE id = ?");
+        if ($stmt->execute([$status, $id])) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+            exit;
+        }
+    }
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false]);
+    exit;
+}
+
+// Handle GET Actions (Legacy compatibility + Redirect)
 if (isset($_GET['action'])) {
     $id = $_GET['id'] ?? null;
     if ($id) {
         if ($_GET['action'] == 'mark_read') {
             $stmt = $pdo->prepare("UPDATE contact_requests SET status = 'read' WHERE id = ?");
-            if ($stmt->execute([$id])) {
-                $success_message = "Message marked as read.";
-            }
+            $stmt->execute([$id]);
         } elseif ($_GET['action'] == 'mark_unread') {
             $stmt = $pdo->prepare("UPDATE contact_requests SET status = 'new' WHERE id = ?");
-            if ($stmt->execute([$id])) {
-                $success_message = "Message marked as new/unread.";
-            }
+            $stmt->execute([$id]);
         } elseif ($_GET['action'] == 'delete') {
             $stmt = $pdo->prepare("DELETE FROM contact_requests WHERE id = ?");
-            if ($stmt->execute([$id])) {
-                $success_message = "Message deleted successfully.";
-            }
+            $stmt->execute([$id]);
         }
     }
+    header("Location: messages.php"); // Always redirect to clean page
+    exit;
 }
 
-// Fetch Messages
+$page_title = 'Contact Messages';
+require_once 'includes/header.php';
+
+// Fetch Messages//
 $search = $_GET['search'] ?? '';
 $status_filter = $_GET['status'] ?? '';
 
@@ -37,7 +53,8 @@ $where = [];
 $params = [];
 
 if ($search) {
-    $where[] = "(name LIKE ? OR email LIKE ? OR subject LIKE ?)";
+    $where[] = "(name LIKE ? OR email LIKE ? OR subject LIKE ? OR message LIKE ?)";
+    $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
@@ -125,7 +142,7 @@ $new_count = $new_count_stmt->fetchColumn();
                         </tr>
                     <?php else: ?>
                         <?php foreach ($messages as $msg): ?>
-                            <tr class="hover:bg-orange-600/[0.02] transition-all group <?php echo $msg['status'] == 'new' ? 'bg-orange-600/[0.03]' : ''; ?>">
+                            <tr data-id="<?php echo $msg['id']; ?>" data-status="<?php echo $msg['status']; ?>" class="hover:bg-orange-600/[0.02] transition-all group <?php echo $msg['status'] == 'new' ? 'bg-orange-600/[0.03]' : ''; ?>">
                                 <td class="px-8 py-6">
                                     <div class="flex items-center space-x-4">
                                         <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-400 group-hover:bg-orange-600 group-hover:text-white transition-all">
@@ -141,7 +158,7 @@ $new_count = $new_count_stmt->fetchColumn();
                                     <div class="text-sm font-semibold text-gray-200"><?php echo h($msg['subject']); ?></div>
                                     <div class="text-[11px] text-gray-500 line-clamp-1 max-w-xs mt-1 italic"><?php echo h($msg['message']); ?></div>
                                 </td>
-                                <td class="px-8 py-6">
+                                <td class="px-8 py-6 status-badge-container">
                                     <?php 
                                         $status_classes = [
                                             'new' => 'bg-orange-600/10 text-orange-500 border-orange-600/20 shadow-[0_0_15px_rgba(255,87,34,0.1)]',
@@ -165,13 +182,13 @@ $new_count = $new_count_stmt->fetchColumn();
                                     <div class="flex items-center justify-end space-x-2 opacity-100 transition-all">
                                         <!-- Status Toggle -->
                                         <?php if ($msg['status'] == 'new'): ?>
-                                            <a href="?action=mark_read&id=<?php echo $msg['id']; ?>" class="w-9 h-9 bg-blue-600/10 flex items-center justify-center text-blue-400 rounded-xl hover:bg-blue-600 hover:text-white transition-all transform hover:scale-110" title="Mark as Read">
+                                            <button onclick="toggleStatus(<?php echo $msg['id']; ?>, 'read')" class="w-9 h-9 bg-blue-600/10 flex items-center justify-center text-blue-400 rounded-xl hover:bg-blue-600 hover:text-white transition-all transform hover:scale-110" title="Mark as Read">
                                                 <i class="fas fa-check text-[10px]"></i>
-                                            </a>
+                                            </button>
                                         <?php else: ?>
-                                            <a href="?action=mark_unread&id=<?php echo $msg['id']; ?>" class="w-9 h-9 bg-yellow-600/10 flex items-center justify-center text-yellow-500 rounded-xl hover:bg-yellow-600 hover:text-white transition-all transform hover:scale-110" title="Mark as New/Unread">
+                                            <button onclick="toggleStatus(<?php echo $msg['id']; ?>, 'new')" class="w-9 h-9 bg-yellow-600/10 flex items-center justify-center text-yellow-500 rounded-xl hover:bg-yellow-600 hover:text-white transition-all transform hover:scale-110" title="Mark as New/Unread">
                                                 <i class="fas fa-envelope-open text-[10px]"></i>
-                                            </a>
+                                            </button>
                                         <?php endif; ?>
 
                                         <!-- Detailed View -->
@@ -228,6 +245,12 @@ $new_count = $new_count_stmt->fetchColumn();
                         <div class="bg-black/40 p-10 rounded-3xl border border-gray-800/50 relative overflow-hidden group">
                             <i class="fas fa-quote-right absolute top-8 right-8 text-6xl text-white/5 pointer-events-none"></i>
                             <p id="modal-message" class="text-gray-300 leading-relaxed text-lg whitespace-pre-wrap relative z-10 font-medium"></p>
+                            
+                            <!-- Copy Button -->
+                            <button id="copy-btn" onclick="copyMessage()" class="absolute bottom-6 right-6 p-3 bg-white/5 hover:bg-orange-600 border border-white/10 rounded-xl text-xs text-gray-500 hover:text-white transition-all transform hover:scale-110 flex items-center space-x-2 z-20 group-hover:opacity-100 opacity-0">
+                                <i class="fas fa-copy"></i>
+                                <span id="copy-status">Copy</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -264,9 +287,9 @@ $new_count = $new_count_stmt->fetchColumn();
         <!-- Modal Footer (Fixed) -->
         <div class="p-6 md:p-8 bg-black/40 border-t border-gray-800/50 flex flex-col md:flex-row justify-end gap-4 flex-shrink-0">
             <button onclick="closeMessageModal()" class="px-8 py-4 rounded-xl text-gray-500 font-bold hover:text-white hover:bg-gray-800 transition-all uppercase tracking-widest text-[10px] md:text-[11px]">Dismiss</button>
-            <a id="modal-reply" href="" class="px-10 py-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl transition-all uppercase tracking-widest text-[10px] md:text-[11px] shadow-lg shadow-orange-600/20 text-center">
-                Reply via Email <i class="fas fa-paper-plane ml-2"></i>
-            </a>
+            <button id="modal-continue" onclick="continueAction()" class="px-12 py-4 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-500 hover:to-orange-600 text-white font-bold rounded-xl transition-all uppercase tracking-widest text-[10px] md:text-[11px] shadow-lg shadow-orange-600/20 text-center flex items-center justify-center min-w-[160px] group">
+                Continue <i class="fas fa-arrow-right ml-3 group-hover:translate-x-2 transition-transform"></i>
+            </button>
         </div>
     </div>
 </div>
@@ -289,7 +312,37 @@ $new_count = $new_count_stmt->fetchColumn();
 </style>
 
 <script>
+function copyMessage() {
+    const text = document.getElementById('modal-message').innerText;
+    const btn = document.getElementById('copy-btn');
+    const status = document.getElementById('copy-status');
+    const icon = btn.querySelector('i');
+
+    navigator.clipboard.writeText(text).then(() => {
+        // Flash success
+        status.innerText = 'Copied!';
+        btn.classList.add('bg-green-600', 'text-white');
+        btn.classList.remove('bg-white/5', 'text-gray-500');
+        icon.className = 'fas fa-check';
+
+        setTimeout(() => {
+            status.innerText = 'Copy';
+            btn.classList.remove('bg-green-600', 'text-white');
+            btn.classList.add('bg-white/5', 'text-gray-500');
+            icon.className = 'fas fa-copy';
+        }, 2000);
+    });
+}
+
+let currentMessageId = null;
+
 function viewMessage(msg) {
+    currentMessageId = msg.id;
+    
+    // Check if status has been updated in the UI
+    const row = document.querySelector(`tr[data-id="${msg.id}"]`);
+    const currentStatus = (row && row.getAttribute('data-status')) ? row.getAttribute('data-status') : msg.status;
+
     document.getElementById('modal-name').innerText = msg.name;
     document.getElementById('modal-initial').innerText = msg.name.substring(0, 1).toUpperCase();
     document.getElementById('modal-email').innerText = msg.email;
@@ -297,8 +350,15 @@ function viewMessage(msg) {
     document.getElementById('modal-subject').innerText = msg.subject;
     document.getElementById('modal-message').innerText = msg.message;
     document.getElementById('modal-date').innerText = new Date(msg.created_at).toLocaleDateString();
-    document.getElementById('modal-reply').href = "mailto:" + msg.email + "?subject=RE: " + msg.subject;
     
+    // Update the continue button text if it's already read
+    const continueBtn = document.getElementById('modal-continue');
+    if (currentStatus === 'read' || currentStatus === 'replied') {
+        continueBtn.innerHTML = 'Close View <i class="fas fa-times ml-3"></i>';
+    } else {
+        continueBtn.innerHTML = 'Continue <i class="fas fa-arrow-right ml-3 group-hover:translate-x-2 transition-transform"></i>';
+    }
+
     const modal = document.getElementById('message-modal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
@@ -313,6 +373,119 @@ function viewMessage(msg) {
     });
     
     document.body.style.overflow = 'hidden';
+}
+
+function continueAction() {
+    if (!currentMessageId) return closeMessageModal();
+
+    // Check if it's already read, in which case it's a 'Close' action
+    const btn = document.getElementById('modal-continue');
+    if (btn.innerText.trim().toLowerCase().includes('close')) {
+        return closeMessageModal();
+    }
+
+    markAsRead(currentMessageId);
+}
+
+function markAsRead(id) {
+    const formData = new FormData();
+    formData.append('ajax_mark_read', '1');
+    formData.append('id', id);
+    formData.append('status', 'read');
+
+    fetch('messages.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateRowUI(id, 'read');
+        }
+        closeMessageModal();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        closeMessageModal();
+    });
+}
+
+function toggleStatus(id, newStatus) {
+    const formData = new FormData();
+    formData.append('ajax_mark_read', '1');
+    formData.append('id', id);
+    formData.append('status', newStatus);
+
+    fetch('messages.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateRowUI(id, newStatus);
+            // Need to update the toggle button itself
+            const row = document.querySelector(`tr[data-id="${id}"]`);
+            if (row) {
+                const toggleContainer = row.querySelector('.flex.items-center.justify-end');
+                if (toggleContainer) {
+                    // Simpler to just let updateRowUI handle it or refresh the specific button
+                    // For now, let's just update the row UI and the button will follow next time
+                    // Actually, we should swap the button.
+                    const isNew = newStatus === 'new';
+                    const buttonHtml = isNew ? 
+                        `<button onclick="toggleStatus(${id}, 'read')" class="w-9 h-9 bg-blue-600/10 flex items-center justify-center text-blue-400 rounded-xl hover:bg-blue-600 hover:text-white transition-all transform hover:scale-110" title="Mark as Read"><i class="fas fa-check text-[10px]"></i></button>` :
+                        `<button onclick="toggleStatus(${id}, 'new')" class="w-9 h-9 bg-yellow-600/10 flex items-center justify-center text-yellow-500 rounded-xl hover:bg-yellow-600 hover:text-white transition-all transform hover:scale-110" title="Mark as New/Unread"><i class="fas fa-envelope-open text-[10px]"></i></button>`;
+                    
+                    // Replace the first child (toggle button)
+                    toggleContainer.querySelector('button, a').outerHTML = buttonHtml;
+                }
+            }
+        }
+    });
+}
+
+function updateRowUI(id, status) {
+    const row = document.querySelector(`tr[data-id="${id}"]`) || findRowByContent(id);
+    if (row) {
+        row.setAttribute('data-status', status);
+        
+        if (status === 'read' || status === 'replied') {
+            row.classList.remove('bg-orange-600/[0.03]');
+            row.classList.add('opacity-80');
+        } else {
+            row.classList.add('bg-orange-600/[0.03]');
+            row.classList.remove('opacity-80');
+        }
+        
+        const statusBadge = row.querySelector('.status-badge-container');
+        if (statusBadge) {
+            let badgeHtml = '';
+            if (status === 'new') {
+                badgeHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border bg-orange-600/10 text-orange-500 border-orange-600/20 shadow-[0_0_15px_rgba(255,87,34,0.1)]">
+                    <span class="w-1.5 h-1.5 bg-orange-600 rounded-full mr-2 animate-pulse"></span>NEW</span>`;
+            } else if (status === 'read') {
+                badgeHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border bg-blue-500/10 text-blue-400 border-blue-500/20">READ</span>`;
+            } else {
+                badgeHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border bg-green-500/10 text-green-400 border-green-500/20">REPLIED</span>`;
+            }
+            statusBadge.innerHTML = badgeHtml;
+        }
+
+        // Also toggle the table icon if possible (or just reload since it's cleaner for now, but AJAX is better)
+        // I've simplified it to just redirect for GET actions but AJAX would be best.
+    }
+}
+
+function findRowByContent(id) {
+    // Fallback if data-id is not set
+    const rows = document.querySelectorAll('tbody tr');
+    for (let row of rows) {
+        if (row.innerHTML.includes(`?action=mark_read&id=${id}`) || row.innerHTML.includes(`id=${id}"`)) {
+            return row;
+        }
+    }
+    return null;
 }
 
 function closeMessageModal() {

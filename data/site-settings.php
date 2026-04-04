@@ -9,8 +9,8 @@ $site_settings = [
     'site_title' => 'VIVA Engineering - Leading Industrial Machinery Manufacturer',
     'contact_email' => 'info@vivaengineering.com',
     'enquiry_email' => 'sales@vivaengineering.com',
-    'whatsapp_number' => '+91 98765 43210',
-    'contact_phone' => '+91 98765 43210',
+    'whatsapp_number' => '+91 99244 41090',
+    'contact_phone' => '+91 92656 09416',
     'address' => 'GIDC Phase III, Ahmedabad, Gujarat, India',
     'working_hours' => 'Mon - Sat: 9:00 AM - 7:00 PM',
     'facebook_url' => 'https://facebook.com/vivaengineering',
@@ -40,6 +40,8 @@ $site_settings = [
     'maintenance_mode' => '1',
     'footer_logo_path' => '/assets/images/products/whatsapp-image-2026-01-02-at-14.40.27.jpeg',
     'preloader_logo_path' => '/uploads/media/viva_import_1774265611_69c1250b611ac.jpeg',
+    'popup_enabled' => '1',
+    'popup_delay' => '5',
 ];
 
 /**
