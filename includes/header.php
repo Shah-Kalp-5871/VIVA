@@ -2,6 +2,10 @@
 require_once __DIR__ . '/../admin/includes/config.php';
 require_once __DIR__ . '/../data/site-settings.php';
 require_once __DIR__ . '/../data/products-data.php';
+
+// Capture Unique Visitors (Once per day per IP)
+require_once __DIR__ . '/visitor_tracking.php';
+
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>

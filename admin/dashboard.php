@@ -24,6 +24,11 @@ $pending_inquiries = $pending_inquiries_stmt->fetchColumn();
 
 $recent_messages_stmt = $pdo->query("SELECT * FROM contact_requests ORDER BY created_at DESC LIMIT 5");
 $recent_messages = $recent_messages_stmt->fetchAll();
+
+// Fetch Visitor Stats
+$total_visitors = $pdo->query("SELECT COUNT(*) FROM visitors")->fetchColumn();
+$today_visitors = $pdo->query("SELECT COUNT(*) FROM visitors WHERE visit_date = CURDATE()")->fetchColumn();
+$month_visitors = $pdo->query("SELECT COUNT(*) FROM visitors WHERE MONTH(visit_date) = MONTH(CURDATE()) AND YEAR(visit_date) = YEAR(CURDATE())")->fetchColumn();
 ?>
 
 <div class="space-y-8">
@@ -95,6 +100,48 @@ $recent_messages = $recent_messages_stmt->fetchAll();
             </div>
             <div class="w-12 h-12 bg-orange-600/10 rounded-xl flex items-center justify-center text-orange-600">
                 <i class="fas fa-inbox text-xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+        <div class="card p-6 flex items-start justify-between border-t-2 border-t-blue-500 bg-blue-500/5">
+            <div>
+                <p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Total Unique Visitors</p>
+                <h3 class="text-3xl font-bold mt-2 font-heading tracking-tight"><?php echo number_format($total_visitors); ?></h3>
+                <p class="text-blue-500 text-[10px] mt-2 font-bold flex items-center">
+                    <i class="fas fa-globe mr-1"></i> ALL TIME
+                </p>
+            </div>
+            <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-500">
+                <i class="fas fa-users text-lg"></i>
+            </div>
+        </div>
+
+        <div class="card p-6 flex items-start justify-between border-t-2 border-t-purple-500 bg-purple-500/5">
+            <div>
+                <p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Today's Visitors</p>
+                <h3 class="text-3xl font-bold mt-2 font-heading tracking-tight"><?php echo number_format($today_visitors); ?></h3>
+                <p class="text-purple-500 text-[10px] mt-2 font-bold flex items-center">
+                    <i class="fas fa-calendar-day mr-1"></i> UNIQUE TODAY
+                </p>
+            </div>
+            <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-500">
+                <i class="fas fa-user-check text-lg"></i>
+            </div>
+        </div>
+
+        <div class="card p-6 flex items-start justify-between border-t-2 border-t-pink-500 bg-pink-500/5">
+            <div>
+                <p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Monthly Visitors</p>
+                <h3 class="text-3xl font-bold mt-2 font-heading tracking-tight"><?php echo number_format($month_visitors); ?></h3>
+                <p class="text-pink-500 text-[10px] mt-2 font-bold flex items-center">
+                    <i class="fas fa-chart-line mr-1"></i> THIS MONTH
+                </p>
+            </div>
+            <div class="w-10 h-10 bg-pink-500/10 rounded-lg flex items-center justify-center text-pink-500">
+                <i class="fas fa-street-view text-lg"></i>
             </div>
         </div>
     </div>
