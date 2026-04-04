@@ -1,0 +1,7 @@
+{
+    "missing_tables": [
+        "lead_submissions",
+        "visitors"
+    ],
+    "missing_columns": []
+}

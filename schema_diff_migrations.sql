@@ -1,0 +1,2 @@
+-- Table MISSING in Prod: lead_submissions. You should CREATE it.
+-- Table MISSING in Prod: visitors. You should CREATE it.

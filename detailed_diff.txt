@@ -1,0 +1,2 @@
+CREATE TABLE `lead_submissions` missing.
+CREATE TABLE `visitors` missing.
